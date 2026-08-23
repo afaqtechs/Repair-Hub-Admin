@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-    User,
     ChevronLeft,
     ChevronRight,
     ChevronDown,
@@ -21,6 +20,8 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Profile } from "@/types/profiles";
+import Image from "next/image";
+import logo from "../../public/ui/logo.webp";
 
 interface SidebarProps {
     isOpen: boolean;
@@ -41,90 +42,31 @@ type MenuItem = {
 };
 
 const menus: MenuItem[] = [
-    {
-        title: "Dashboard",
-        path: "/",
-        icon: LayoutDashboard,
-    },
-
-    {
-        title: "Users",
-        path: "/users",
-        icon: Users,
-    },
-
-    {
-        title: "Technicians",
-        path: "/technicians",
-        icon: Wrench,
-    },
-
-    {
-        title: "Parts",
-        path: "/parts",
-        icon: Package,
-    },
-
-    {
-        title: "Services",
-        path: "/services",
-        icon: Cog,
-    },
-
-    {
-        title: "Requests",
-        path: "/requests",
-        icon: ClipboardList,
-    },
-
+    { title: "Dashboard", path: "/admin", icon: LayoutDashboard },
+    { title: "Users", path: "/users", icon: Users },
+    { title: "Technicians", path: "/technicians", icon: Wrench },
+    { title: "Parts", path: "/parts", icon: Package },
+    { title: "Services", path: "/services", icon: Cog },
+    { title: "Requests", path: "/requests", icon: ClipboardList },
     {
         title: "Catalog",
         icon: Tags,
         submenu: [
-            {
-                title: "Categories",
-                path: "/categories",
-            },
-            {
-                title: "Platforms",
-                path: "/platforms",
-            },
-            {
-                title: "Conditions",
-                path: "/conditions",
-            },
+            { title: "Categories", path: "/categories" },
+            { title: "Platforms", path: "/platforms" },
+            { title: "Conditions", path: "/conditions" },
         ],
     },
-
-    {
-        title: "Settings",
-        path: "/settings",
-        icon: Settings,
-    },
+    { title: "Settings", path: "/settings", icon: Settings },
 ];
 
-export function Sidebar({
-    isOpen,
-    setIsOpen,
-    collapsed,
-    setCollapsed,
-    user,
-}: SidebarProps) {
+export function Sidebar({ isOpen, setIsOpen, collapsed, setCollapsed, user }: SidebarProps) {
     const pathname = usePathname();
-
     const [openMenu, setOpenMenu] = useState<number | null>(null);
 
-    /*
-     * Automatically open a submenu when
-     * one of its children is active.
-     */
     useEffect(() => {
         menus.forEach((menu, index) => {
-            if (
-                menu.submenu?.some((sub) =>
-                    pathname.startsWith(sub.path)
-                )
-            ) {
+            if (menu.submenu?.some((sub) => pathname.startsWith(sub.path))) {
                 setOpenMenu(index);
             }
         });
@@ -132,18 +74,12 @@ export function Sidebar({
 
     const isActive = (path?: string) => {
         if (!path) return false;
-
-        if (path === "/") {
-            return pathname === "/";
-        }
-
+        if (path === "/") return pathname === "/";
         return pathname.startsWith(path);
     };
 
     const toggleMenu = (index: number) => {
-        setOpenMenu((prev) =>
-            prev === index ? null : index
-        );
+        setOpenMenu((prev) => (prev === index ? null : index));
     };
 
     const handleLinkClick = () => {
@@ -154,7 +90,6 @@ export function Sidebar({
 
     return (
         <>
-            {/* Mobile overlay */}
             {isOpen && (
                 <div
                     onClick={() => setIsOpen(false)}
@@ -163,65 +98,40 @@ export function Sidebar({
             )}
 
             <aside
-                className={`
-          fixed left-0 top-0 z-50 flex h-screen
-          flex-col border-r border-gray-800
-          bg-gray-900 text-gray-100
-          transition-all duration-300 ease-in-out
-
-          ${collapsed ? "w-20" : "w-64"}
-
-          ${isOpen
-                        ? "translate-x-0"
-                        : "-translate-x-full lg:translate-x-0"
-                    }
-        `}
+                className={`fixed left-0 top-0 z-50 flex h-screen flex-col border-r border-gray-800 bg-gray-900 text-gray-100 transition-all duration-300 ease-in-out ${collapsed ? "w-20" : "w-64"} ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
             >
                 {/* Header */}
                 <div className="flex h-18 items-center justify-between border-b border-gray-800 px-4">
                     <div className="flex min-w-0 items-center gap-3">
-                        {/* Avatar */}
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-800 text-gray-300">
-                            <User className="h-4.5 w-4.5" />
-                        </div>
-
                         {!collapsed && (
-                            <div className="min-w-0">
-                                <h3 className="truncate text-sm font-semibold text-white">
-                                    {user?.first_name || "Administrator"}
-                                </h3>
-
-                                <p className="truncate text-xs text-gray-400">
-                                    {user?.role || "Admin"} Account
-                                </p>
-                            </div>
+                            <>
+                                <div className="relative z-10 overflow-hidden">
+                                    <Image
+                                        src={logo}
+                                        alt="RepairHub"
+                                        className="h-12 w-12 object-contain rounded-full object-left"
+                                        priority
+                                    />
+                                </div>
+                                <div className="min-w-0">
+                                    <h3 className="truncate text-sm font-semibold text-white">
+                                        {user?.first_name || "Administrator"}
+                                    </h3>
+                                    <p className="truncate text-xs text-gray-400">
+                                        {user?.role || "Admin"} Account
+                                    </p>
+                                </div>
+                            </>
                         )}
                     </div>
 
-                    {/* Collapse button */}
                     <button
                         type="button"
-                        aria-label={
-                            collapsed
-                                ? "Expand sidebar"
-                                : "Collapse sidebar"
-                        }
+                        aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
                         onClick={() => setCollapsed(!collapsed)}
-                        className="
-              hidden rounded-full p-1.5
-              text-gray-400
-              transition
-              bg-gray-800
-              hover:bg-gray-900
-              hover:text-gray-200
-              lg:flex
-            "
+                        className="hidden rounded-full p-1.5 text-gray-400 transition bg-gray-800 hover:bg-gray-900 hover:text-gray-200 lg:flex"
                     >
-                        {collapsed ? (
-                            <ChevronRight size={18} />
-                        ) : (
-                            <ChevronLeft size={18} />
-                        )}
+                        {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
                     </button>
                 </div>
 
@@ -230,16 +140,7 @@ export function Sidebar({
                     <div className="border-b border-gray-800 p-4">
                         <Input
                             placeholder="Search..."
-                            className="
-                h-9
-                border-gray-700
-                bg-gray-800/50
-                text-gray-100
-                placeholder:text-gray-500
-                focus-visible:ring-1
-                focus-visible:ring-blue-500
-                focus-visible:border-transparent
-              "
+                            className="h-9 border-gray-700 bg-gray-800/50 text-gray-100 placeholder:text-gray-500 focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-transparent"
                         />
                     </div>
                 )}
@@ -250,49 +151,21 @@ export function Sidebar({
                         {menus.map((item, index) => {
                             const Icon = item.icon;
 
-                            /*
-                             * Normal link
-                             */
                             if (!item.submenu) {
                                 return (
                                     <Link
                                         key={item.title}
                                         href={item.path!}
                                         onClick={handleLinkClick}
-                                        className={`
-                      flex items-center gap-3 rounded-md
-                      px-3 py-2.5
-                      text-sm font-medium
-                      transition-colors
-
-                      ${isActive(item.path)
-                                                ? "bg-blue-500/10 text-blue-400"
-                                                : "text-gray-400 hover:bg-gray-800 hover:text-gray-200"
-                                            }
-
-                      ${collapsed ? "justify-center" : ""}
-                    `}
+                                        className={`flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors ${isActive(item.path) ? "bg-blue-500/10 text-blue-400" : "text-gray-400 hover:bg-gray-800 hover:text-gray-200"} ${collapsed ? "justify-center" : ""}`}
                                     >
-                                        {Icon && (
-                                            <Icon
-                                                size={18}
-                                                className="shrink-0"
-                                            />
-                                        )}
-
-                                        {!collapsed && (
-                                            <span>{item.title}</span>
-                                        )}
+                                        {Icon && <Icon size={18} className="shrink-0" />}
+                                        {!collapsed && <span>{item.title}</span>}
                                     </Link>
                                 );
                             }
 
-                            /*
-                             * Submenu
-                             */
-                            const submenuActive = item.submenu.some(
-                                (sub) => isActive(sub.path)
-                            );
+                            const submenuActive = item.submenu.some((sub) => isActive(sub.path));
 
                             return (
                                 <div key={item.title}>
@@ -300,67 +173,29 @@ export function Sidebar({
                                         type="button"
                                         aria-expanded={openMenu === index}
                                         onClick={() => toggleMenu(index)}
-                                        className={`
-                      flex w-full items-center
-                      justify-between rounded-md
-                      px-3 py-2.5
-                      text-sm font-medium
-                      transition-colors
-
-                      ${submenuActive
-                                                ? "text-blue-400"
-                                                : "text-gray-400 hover:bg-gray-800 hover:text-gray-200"
-                                            }
-
-                      ${collapsed ? "justify-center" : ""}
-                    `}
+                                        className={`flex w-full items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium transition-colors ${submenuActive ? "text-blue-400" : "text-gray-400 hover:bg-gray-800 hover:text-gray-200"} ${collapsed ? "justify-center" : ""}`}
                                     >
                                         <div className="flex items-center gap-3">
-                                            {Icon && (
-                                                <Icon
-                                                    size={18}
-                                                    className="shrink-0"
-                                                />
-                                            )}
-
-                                            {!collapsed && (
-                                                <span>{item.title}</span>
-                                            )}
+                                            {Icon && <Icon size={18} className="shrink-0" />}
+                                            {!collapsed && <span>{item.title}</span>}
                                         </div>
-
-                                        {!collapsed &&
-                                            (openMenu === index ? (
-                                                <ChevronUp size={14} className="text-gray-400" />
-                                            ) : (
-                                                <ChevronDown size={14} className="text-gray-400" />
-                                            ))}
+                                        {!collapsed && (openMenu === index ? <ChevronUp size={14} className="text-gray-400" /> : <ChevronDown size={14} className="text-gray-400" />)}
                                     </button>
 
-                                    {!collapsed &&
-                                        openMenu === index && (
-                                            <div className="ml-7 mt-1 space-y-1 border-l border-gray-800 pl-2">
-                                                {item.submenu.map((sub) => (
-                                                    <Link
-                                                        key={sub.title}
-                                                        href={sub.path}
-                                                        onClick={handleLinkClick}
-                                                        className={`
-                              block rounded-md
-                              px-3 py-2
-                              text-sm
-                              transition-colors
-
-                              ${isActive(sub.path)
-                                                                ? "bg-blue-500/10 text-blue-400"
-                                                                : "text-gray-400 hover:bg-gray-800 hover:text-gray-200"
-                                                            }
-                            `}
-                                                    >
-                                                        {sub.title}
-                                                    </Link>
-                                                ))}
-                                            </div>
-                                        )}
+                                    {!collapsed && openMenu === index && (
+                                        <div className="ml-7 mt-1 space-y-1 border-l border-gray-800 pl-2">
+                                            {item.submenu.map((sub) => (
+                                                <Link
+                                                    key={sub.title}
+                                                    href={sub.path}
+                                                    onClick={handleLinkClick}
+                                                    className={`block rounded-md px-3 py-2 text-sm transition-colors ${isActive(sub.path) ? "bg-blue-500/10 text-blue-400" : "text-gray-400 hover:bg-gray-800 hover:text-gray-200"}`}
+                                                >
+                                                    {sub.title}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             );
                         })}
@@ -369,20 +204,9 @@ export function Sidebar({
 
                 {/* Footer */}
                 <div className="border-t border-gray-800 p-4">
-                    <div
-                        className={`
-              flex items-center
-              text-gray-500
-              ${collapsed ? "justify-center" : "justify-center"}
-            `}
-                    >
+                    <div className={`flex items-center text-gray-500 ${collapsed ? "justify-center" : "justify-center"}`}>
                         <span className="text-base">©</span>
-
-                        {!collapsed && (
-                            <span className="ml-2 text-xs">
-                                {new Date().getFullYear()} RepairHub
-                            </span>
-                        )}
+                        {!collapsed && <span className="ml-2 text-xs">{new Date().getFullYear()} RepairHub</span>}
                     </div>
                 </div>
             </aside>

@@ -2,26 +2,34 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { Eye, EyeOff, Loader2, Lock, Mail, Sparkles, Shield } from "lucide-react";
+import Image from "next/image";
+import {
+    Eye,
+    EyeOff,
+    Loader2,
+    Lock,
+    Mail,
+    ShieldCheck,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { signIn } from "@/src/api/auth.api";
 import { useRouter } from "next/navigation";
+import logo from "../../../../public/ui/logo.webp";
+import Styles from "@/constants/styles";
 
 export default function Login() {
-    const router = useRouter()
+    const router = useRouter();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         setError("");
 
         if (!email || !password) {
@@ -31,174 +39,178 @@ export default function Login() {
 
         try {
             setLoading(true);
-
             const data = await signIn(email, password);
             if (!data?.user) {
                 setError("Invalid email or password.");
                 return;
             }
-
-            console.log(data)
-
-            router.push("/")
+            router.push("/admin");
         } catch (error) {
+            console.log(error);
             setError("Something went wrong. Please try again.");
-            console.log(error)
         } finally {
             setLoading(false);
         }
     };
 
+    const handleGoogleSignIn = () => {
+        // Placeholder for Google sign-in
+        console.log("Google sign-in clicked");
+        // You can add your Google OAuth logic here later
+    };
+
     return (
-        <main className="relative flex h-screen items-center justify-center bg-linear-to-br from-gray-950 via-gray-900 to-gray-950 px-4 overflow-hidden">
-            <div className="relative w-full max-w-md">
-                {/* Logo / heading */}
-                <div className="mb-8 text-center">
-                    <div className="relative mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-br from-blue-500 to-blue-600 shadow-lg shadow-blue-500/30">
-                        <Shield className="h-8 w-8 text-white" />
-                        <Sparkles className="absolute -top-2 -right-2 h-4 w-4 text-yellow-400 animate-pulse" />
-                    </div>
+        <main className="bg-black flex h-screen overflow-hidden font-sans">
+            {/* LEFT BRANDING */}
+            <div
+                className="hidden lg:flex flex-col relative w-1/2 items-center justify-center bg-cover bg-center"
+            >
+                <div className="absolute inset-0 bg-black/55"></div>
+                <div className="mb-10 relative z-10 overflow-hidden">
+                    <Image
+                        src={logo}
+                        alt="RepairHub"
+                        width={220}
+                        height={70}
+                        className="h-48 w-48 object-contain rounded-full object-left"
+                        priority
+                    />
                 </div>
 
-                {/* Card */}
-                <div className="relative rounded-2xl  bg-gray-900/80 p-8 ">
-                    <form
-                        onSubmit={handleSubmit}
-                        className="relative space-y-5"
-                    >
-                        {/* Error */}
-                        {error && (
-                            <div className="animate-shake rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400 backdrop-blur-sm">
-                                {error}
-                            </div>
-                        )}
+                <div className="relative z-10 text-end px-10">
+                    <h1 className="max-w-lg text-4xl font-bold tracking-tight text-gray-100 xl:text-5xl font-serif">
+                        Everything you need to manage{" "}
+                        <span className="text-emerald-500">RepairHub.</span>
+                    </h1>
 
-                        {/* Email */}
-                        <div className="space-y-2">
-                            <Label htmlFor="email" className="text-sm font-medium text-gray-300">
-                                Email Address
-                            </Label>
+                    <p className="mt-6 max-w-lg text-base leading-7 text-gray-400 font-light">
+                        Manage technicians, services, spare parts,
+                        reviews, users, and platform activity from one
+                        simple administration panel.
+                    </p>
+                </div>
+            </div>
 
-                            <div className="relative">
-                                <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+            {/* RIGHT LOGIN */}
+            <div className="w-full lg:w-1/2 relative flex flex-col items-center px-3 lg:px-10 py-12 gap-3 bg-gray-900/50 h-screen overflow-hidden">
+                {/* Background blobs */}
+                <span className="absolute w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl -top-40 -right-40"></span>
+                <span className="absolute w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl -bottom-40 -left-40"></span>
 
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    placeholder="admin@repairhub.com"
-                                    value={email}
-                                    onChange={(e) =>
-                                        setEmail(e.target.value)
-                                    }
-                                    disabled={loading}
-                                    autoComplete="email"
-                                    className="h-11 border-gray-700 bg-gray-800/50 pl-10 text-gray-100 placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500/30"
-                                />
-                            </div>
+                <div className="flex flex-col items-center justify-center w-full gap-2 z-10">
+                    <h1 className="text-2xl text-gray-100 font-serif font-semibold tracking-wide">
+                        Welcome back
+                    </h1>
+                    <p className="text-base text-gray-400 font-light text-center">
+                        Sign in to your RepairHub admin account.
+                    </p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="w-full flex flex-col gap-5 bg-gray-900/30 px-5 lg:px-10 py-10 rounded-md max-w-md z-10">
+
+                    {error && (
+                        <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400 font-medium">
+                            {error}
                         </div>
+                    )}
 
-                        {/* Password */}
-                        <div className="space-y-2">
-                            <div className="flex items-center justify-between">
-                                <Label htmlFor="password" className="text-sm font-medium text-gray-300">
-                                    Password
-                                </Label>
-                                <Link
-                                    href="/auth/forgot-password"
-                                    className="text-xs text-blue-400 transition-colors hover:text-blue-300 hover:underline"
-                                >
-                                    Forgot password?
-                                </Link>
-                            </div>
-
-                            <div className="relative">
-                                <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
-
-                                <Input
-                                    id="password"
-                                    type={
-                                        showPassword
-                                            ? "text"
-                                            : "password"
-                                    }
-                                    placeholder="Enter your password"
-                                    value={password}
-                                    onChange={(e) =>
-                                        setPassword(e.target.value)
-                                    }
-                                    disabled={loading}
-                                    autoComplete="current-password"
-                                    className="h-11 border-gray-700 bg-gray-800/50 pl-10 pr-12 text-gray-100 placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500/30"
-                                />
-
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        setShowPassword(
-                                            (prev) => !prev
-                                        )
-                                    }
-                                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-500 transition-colors hover:text-gray-300"
-                                    aria-label={
-                                        showPassword
-                                            ? "Hide password"
-                                            : "Show password"
-                                    }
-                                >
-                                    {showPassword ? (
-                                        <EyeOff className="h-4 w-4" />
-                                    ) : (
-                                        <Eye className="h-4 w-4" />
-                                    )}
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Submit */}
-                        <Button
-                            type="submit"
+                    {/* Email */}
+                    <div className="relative flex items-center">
+                        <Input
+                            id="email"
+                            type="email"
+                            placeholder="admin@repairhub.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             disabled={loading}
-                            className="relative h-11 w-full bg-gray-800 text-white cursor-pointer font-semibold transition-all disabled:opacity-70"
-                        >
-                            {loading ? (
-                                <>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Signing in...
-                                </>
-                            ) : (
-                                "Sign in"
-                            )}
-                        </Button>
-                    </form>
-
-                    {/* Divider */}
-                    <div className="relative my-6">
-                        <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-gray-800" />
-                        </div>
-                        <div className="relative flex justify-center text-xs">
-                            <span className="bg-gray-900/80 px-3 text-gray-500 backdrop-blur-sm">
-                                Secure access
-                            </span>
-                        </div>
+                            autoComplete="email"
+                            className={`${Styles.input} px-14 bg-gray-800 text-gray-100 placeholder:text-gray-500 font-light`}
+                        />
+                        <Mail className="absolute left-3 text-gray-500" size={18} />
                     </div>
 
-                    {/* Signup */}
-                    <div className="text-center text-sm text-gray-400">
-                        Don&apos;t have an account?{" "}
-                        <Link
-                            href="/auth/sign-up"
-                            className="cursor-pointer font-medium text-blue-400 transition-colors hover:text-blue-300 hover:underline"
+                    {/* Password */}
+                    <div className="relative flex items-center">
+                        <Input
+                            id="password"
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            disabled={loading}
+                            autoComplete="current-password"
+                            className={`${Styles.input} px-14 bg-gray-800 text-gray-100 placeholder:text-gray-500 font-light`}
+                        />
+                        <Lock className="absolute left-3 text-gray-500" size={18} />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-500 transition-colors hover:text-gray-300"
+                            aria-label={showPassword ? "Hide password" : "Show password"}
                         >
-                            Create one now
+                            {showPassword ? (
+                                <EyeOff className="h-4 w-4" />
+                            ) : (
+                                <Eye className="h-4 w-4" />
+                            )}
+                        </button>
+                    </div>
+
+                    {/* Forgot password link */}
+                    <div className="flex justify-end -mt-2">
+                        <Link
+                            href="/auth/forgot-password"
+                            className="text-xs text-gray-400 hover:text-emerald-400 transition-colors font-light"
+                        >
+                            Forgot password?
                         </Link>
                     </div>
-                </div>
 
-                {/* Footer text */}
-                <p className="mt-6 text-center text-xs text-gray-600">
-                    By signing in, you agree to our Terms of Service and Privacy Policy
-                </p>
+                    {/* Sign In Button */}
+                    <Button
+                        type="submit"
+                        disabled={loading}
+                        className="cursor-pointer rounded-md font-medium py-2 text-white bg-emerald-500/90 hover:bg-emerald-600 transition-all duration-300 disabled:opacity-50 font-sans"
+                    >
+                        {loading ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Signing in...
+                            </>
+                        ) : (
+                            "Sign in"
+                        )}
+                    </Button>
+
+                    {/* Divider */}
+                    <div className="relative flex items-center py-2">
+                        <div className="grow border-t border-gray-700"></div>
+                        <span className="shrink mx-4 text-xs text-gray-500 font-light">or</span>
+                        <div className="grow border-t border-gray-700"></div>
+                    </div>
+
+                    {/* Google Sign In Button */}
+                    <Button
+                        type="button"
+                        onClick={handleGoogleSignIn}
+                        disabled={loading}
+                        className="cursor-pointer rounded-md font-medium py-2 text-white bg-gray-700/50 hover:bg-gray-700 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2 border border-gray-600 font-sans"
+                    >
+                        <svg className="w-5 h-5" viewBox="0 0 48 48">
+                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+                        </svg>
+                        Sign in with Google
+                    </Button>
+                </form>
+
+                {/* Secure access */}
+                <div className="flex items-center justify-center gap-2 border-t border-gray-700 pt-5 text-xs text-gray-500 font-light">
+                    <ShieldCheck className="h-3.5 w-3.5" />
+                    <span>Secure admin access</span>
+                </div>
             </div>
         </main>
     );
