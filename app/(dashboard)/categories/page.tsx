@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { useCategories, useCategoryMutations, usePartsByCategory, useRequestsByCategory, useServicesByCategory } from "@/src/hooks";
+import { useCategories, useCategoryMutations, usePartsByCategory, useRequestsByCategory, useServicesByCategory } from "@/hooks";
 import { DataTable } from "@/components/ui/datatable";
 import { categoryColumns } from "./components/columns";
 import { DataTableToolbar } from "@/components/ui/data-table-toolbar";
