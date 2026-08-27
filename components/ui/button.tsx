@@ -1,6 +1,5 @@
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
-
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
@@ -8,16 +7,19 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/80",
+        default:
+          "bg-gray-900 text-white hover:bg-gray-800 focus-visible:ring-gray-900/20 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200",
+        primary:
+          "bg-primary text-white hover:bg-blue-500 focus-visible:ring-blue-500 dark:bg-blue-500 dark:hover:bg-primary",
         outline:
-          "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+          "border-gray-300 bg-white text-gray-700 hover:border-gray-400 hover:bg-gray-50 hover:text-gray-900 aria-expanded:bg-gray-50 aria-expanded:text-gray-900 dark:border-gray-600 dark:bg-transparent dark:text-gray-300 dark:hover:border-gray-500 dark:hover:bg-gray-800 dark:hover:text-gray-100",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+          "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900 aria-expanded:bg-gray-100 aria-expanded:text-gray-900 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-gray-100",
         ghost:
-          "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
+          "text-gray-700 hover:bg-gray-100 hover:text-gray-900 aria-expanded:bg-gray-100 aria-expanded:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-100",
         destructive:
-          "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
-        link: "text-primary underline-offset-4 hover:underline",
+          "bg-red-500 text-white shadow-sm hover:bg-red-600 hover:shadow focus-visible:border-red-500 focus-visible:ring-3 focus-visible:ring-red-500/20 active:bg-red-600 disabled:bg-red-300 dark:bg-red-500 dark:text-white dark:hover:bg-red-600", link:
+          "text-gray-700 underline-offset-4 hover:underline hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100",
       },
       size: {
         default:
@@ -34,7 +36,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "outline",
       size: "default",
     },
   }
@@ -42,14 +44,14 @@ const buttonVariants = cva(
 
 function Button({
   className,
-  variant = "default",
+  variant = "outline",
   size = "default",
   ...props
 }: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
   return (
     <ButtonPrimitive
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={`cursor-pointer ${cn(buttonVariants({ variant, size, className }))}`}
       {...props}
     />
   )

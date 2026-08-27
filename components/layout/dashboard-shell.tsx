@@ -7,6 +7,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Sidebar } from "@/components/layout/sidebar";
 import { useAuth } from "@/src/context/AuthContext";
 import { useTechnician } from "@/src/hooks/useProfiles";
+import { Spinner } from "../ui/loader";
 
 interface DashboardShellProps {
     children: React.ReactNode;
@@ -24,7 +25,7 @@ export function DashboardShell({
 
     const {
         data: technician,
-        isLoading: technicianLoading,
+        isLoading,
     } = useTechnician(String(user?.id));
 
     useEffect(() => {
@@ -33,19 +34,16 @@ export function DashboardShell({
         }
     }, [user, authLoading, router]);
 
-    if (authLoading || !user) {
+    if (isLoading) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-gray-900 text-gray-400">
-                Loading...
-            </div>
-        );
-    }
-
-    if (technicianLoading) {
-        return (
-            <div className="flex min-h-screen items-center justify-center bg-gray-900 text-gray-400">
-                Loading dashboard...
-            </div>
+            <Spinner
+                variant="primary"
+                size="default"
+                fullScreen
+                text="Loading..."
+                type="spinner"
+                className=""
+            />
         );
     }
 
@@ -57,7 +55,7 @@ export function DashboardShell({
         );
     }
 
-    if (technician.role !== "admin") {
+    if (!technician || technician.role !== "admin") {
         return (
             <div className="flex min-h-screen items-center justify-center bg-gray-900 text-white">
                 Unauthorized

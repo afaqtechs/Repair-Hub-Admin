@@ -68,7 +68,7 @@ export function Navbar({ onToggleSidebar, user }: NavbarProps) {
             <div className="flex items-center gap-2">
                 {/* Notifications */}
                 <Button
-                    variant="ghost"
+                    variant="default"
                     size="icon"
                     className="relative text-gray-900 hover:text-gray-700 hover:bg-gray-200"
                     aria-label="Notifications"
@@ -80,26 +80,28 @@ export function Navbar({ onToggleSidebar, user }: NavbarProps) {
 
                 {/* User menu */}
                 <DropdownMenu>
-                    <DropdownMenuTrigger>
-                        <Button
-                            variant="ghost"
-                            className="flex h-10 items-center gap-2 rounded-full px-2 text-gray-700 hover:text-gray-900 hover:bg-gray-200"
-                        >
-                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-gray-900">
-                                <User className="h-4 w-4" />
-                            </div>
+                    <DropdownMenuTrigger
+                        render={
+                            <Button
+                                variant="default"
+                                className="flex h-10 items-center gap-2 rounded-full px-2 text-gray-700 hover:text-gray-900 hover:bg-gray-200"
+                            >
+                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-gray-900">
+                                    <User className="h-4 w-4" />
+                                </div>
 
-                            <div className="hidden text-left md:block">
-                                <p className="text-sm font-medium text-gray-900">
-                                    {user?.first_name || "Administrator"}
-                                </p>
+                                <div className="hidden text-left md:block">
+                                    <p className="text-sm font-medium text-gray-900">
+                                        {user?.first_name || "Administrator"}
+                                    </p>
 
-                                <p className="text-xs text-gray-500">
-                                    {user?.role || "Admin"}
-                                </p>
-                            </div>
-                        </Button>
-                    </DropdownMenuTrigger>
+                                    <p className="text-xs text-gray-500">
+                                        {user?.role || "Admin"}
+                                    </p>
+                                </div>
+                            </Button>
+                        }
+                    />
 
                     <DropdownMenuContent
                         align="end"

@@ -26,7 +26,6 @@ export const profileApi = {
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('role', 'technician')
         .order('first_name', {
           ascending: true,
         });

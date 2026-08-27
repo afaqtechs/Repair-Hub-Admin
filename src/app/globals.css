@@ -3,29 +3,55 @@
 @import "shadcn/tailwind.css";
 
 :root {
-  --background: #F7F6FB;
+  --background: #f7f6fb;
   --foreground: #171717;
 
-  --card: #FFFFFF;
+  --card: #ffffff;
   --card-foreground: #171717;
+
+  --primary: #5b3df5;
+  --primary-foreground: #ffffff;
+
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #5b3df5;
 }
 
-.bg-background{
-    background-color:#F7F6FB ;
+/* =========================
+   Custom Utility Classes
+   ========================= */
+
+.bg-background {
+  background-color: var(--background);
 }
 
-.bg-card{
-  background-color:#FFFFFF ;
+.bg-card {
+  background-color: var(--card);
 }
 
-* {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+.bg-primary {
+  background-color: var(--primary);
 }
 
-*::-webkit-scrollbar {
-  display: none;
+.text-primary {
+  color: var(--primary);
 }
+
+.text-primary-foreground {
+  color: var(--primary-foreground);
+}
+
+.border-primary {
+  border-color: var(--primary);
+}
+
+.ring-primary {
+  --tw-ring-color: var(--primary);
+}
+
+/* =========================
+   Base
+   ========================= */
 
 html,
 body {
@@ -36,4 +62,17 @@ body {
 
 body {
   margin: 0;
+}
+
+/* =========================
+   Scrollbar
+   ========================= */
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
