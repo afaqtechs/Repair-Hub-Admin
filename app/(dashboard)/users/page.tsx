@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { useTechnicians } from "@/src/hooks/useProfiles";
 import { User, userColumns } from "./component/columns";
 import { DataTable } from "@/components/ui/datatable";
 import { DataTableToolbar } from "@/components/ui/data-table-toolbar";
 import { PageHeader } from "@/components/ui/page-header";
 import { Profile } from "@/types/profiles";
+import { useTechnicians } from "@/hooks";
 
 function Users() {
     const {

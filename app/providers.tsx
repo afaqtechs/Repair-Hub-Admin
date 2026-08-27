@@ -6,7 +6,7 @@ import {
     QueryClientProvider,
 } from "@tanstack/react-query";
 
-import { AuthProvider } from "@/src/context/AuthContext";
+import { AuthProvider } from "@/context/AuthContext";
 
 export function Providers({
     children,

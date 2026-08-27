@@ -14,7 +14,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { signIn } from "@/src/api/auth.api";
+import { signIn } from "@/api/auth.api";
 import { useRouter } from "next/navigation";
 import logo from "../../../../public/ui/logo.webp";
 import Styles from "@/constants/styles";

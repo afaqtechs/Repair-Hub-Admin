@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 
 import { Navbar } from "@/components/layout/navbar";
 import { Sidebar } from "@/components/layout/sidebar";
-import { useAuth } from "@/src/context/AuthContext";
-import { useTechnician } from "@/src/hooks/useProfiles";
+import { useAuth } from "@/context/AuthContext";
+import { useTechnician } from "@/hooks/useProfiles";
 import { Spinner } from "../ui/loader";
 
 interface DashboardShellProps {

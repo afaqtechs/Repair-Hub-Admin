@@ -4,10 +4,10 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ImagePlus, Upload, X } from "lucide-react";
 
-import { useCategoryMutations } from "@/src/hooks/useCategories";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import Styles from "@/constants/styles";
+import { useCategoryMutations } from "@/hooks";
 
 type AddCategoryProps = {
     showModal: boolean;

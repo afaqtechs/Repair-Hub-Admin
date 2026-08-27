@@ -17,7 +17,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Profile } from "@/types/profiles";
-import { signOut } from "@/src/api/auth.api";
+import { signOut } from "@/api/auth.api";
 import { useRouter } from "next/navigation";
 
 interface NavbarProps {
