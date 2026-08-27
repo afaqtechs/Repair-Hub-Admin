@@ -4,9 +4,9 @@ import React, { useMemo } from "react";
 import { useTechnicians } from "@/src/hooks/useProfiles";
 import { User, userColumns } from "./component/columns";
 import { DataTable } from "@/components/ui/datatable";
-import { Technician } from '../../../../../repair-hub/types/profiles';
 import { DataTableToolbar } from "@/components/ui/data-table-toolbar";
 import { PageHeader } from "@/components/ui/page-header";
+import { Profile } from "@/types/profiles";
 
 function Users() {
     const {
@@ -15,7 +15,7 @@ function Users() {
     } = useTechnicians();
 
     const technicianUsers: User[] = useMemo(() => {
-        return technicians.map((technician: Technician) => ({
+        return technicians.map((technician: Profile) => ({
             id: technician.id,
 
             photo: technician.profile_image_url ?? null,
@@ -37,8 +37,8 @@ function Users() {
 
     const adminUsers: User[] = useMemo(() => {
         return technicians
-            .filter((user: Technician) => user.role === "admin")
-            .map((admin: Technician) => ({
+            .filter((user: Profile) => user.role === "admin")
+            .map((admin: Profile) => ({
                 id: admin.id,
 
                 photo: admin.profile_image_url ?? null,
