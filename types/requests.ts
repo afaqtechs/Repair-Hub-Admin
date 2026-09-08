@@ -22,6 +22,8 @@ export interface Request {
 
   images?: string[] | null;
 
+    is_approved?:boolean | null;
+
   created_at?: string | null;
   updated_at?: string | null;
 
@@ -36,6 +38,7 @@ export interface UpdateRequestDto {
   platform_id?: string;
   description?: string | null;
   priority?: RequestPriority;
+    is_approved:boolean | null;
   images?: string[] | null;
   is_active?: boolean;
 }

@@ -1,6 +1,6 @@
 // types/profiles.ts
 
-export type UserRole = "admin" ;
+export type UserRole = "admin"  | "technician";
 export interface Profile {
   // Database
   id: string;
@@ -90,6 +90,9 @@ export type ProfileDto = Partial<{
 
   latitude: number | null;
   longitude: number | null;
+
+  is_active: boolean | null;
+  verification_status?: 'pending' | 'verified' | 'rejected';
 
   legal_document_url: string | null;
   profile_image_url: string | null;

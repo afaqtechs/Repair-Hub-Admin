@@ -37,7 +37,7 @@ export function DashboardShell({
     if (isLoading) {
         return (
             <Spinner
-                variant="primary"
+                variant="success"
                 size="default"
                 fullScreen
                 text="Loading..."

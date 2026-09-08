@@ -98,7 +98,7 @@ export function DataTable<
     return (
         <div className="w-full">
             {/* Table */}
-            <div className="overflow-hidden rounded-md border border-gray-300 p-3">
+            <div className="overflow-hidden">
                 <Table>
                     {/* Header */}
                     <TableHeader>
@@ -107,7 +107,7 @@ export function DataTable<
                             .map((headerGroup) => (
                                 <TableRow
                                     key={headerGroup.id}
-                                    className="bg-gray-100/80 hover:bg-gray-100/80"
+                                    className=""
                                 >
                                     {headerGroup.headers.map(
                                         (header) => (

@@ -43,7 +43,7 @@ function HomePage() {
 
                 <button
                     onClick={() => router.push("/auth/sign-in")}
-                    className="w-full rounded-xl bg-[#5B3DF5] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#4c31d4]"
+                    className="cursor-pointer w-full rounded-xl bg-[#5EAE32] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#79e636]"
                 >
                     Sign In
                 </button>

@@ -44,13 +44,13 @@ export function Navbar({ onToggleSidebar, user }: NavbarProps) {
             <div className="flex items-center gap-3">
                 {/* Mobile menu */}
                 <Button
-                    variant="ghost"
+                    variant="default"
                     size="icon"
                     onClick={onToggleSidebar}
-                    className="lg:hidden text-gray-900 hover:text-gray-700 hover:bg-gray-200"
+                    className="lg:hidden"
                     aria-label="Toggle sidebar"
                 >
-                    <Menu className="h-5 w-5" />
+                    <Menu className="h-5 w-5" color="#102112" />
                 </Button>
 
                 <div>
@@ -58,7 +58,7 @@ export function Navbar({ onToggleSidebar, user }: NavbarProps) {
                         Admin Dashboard
                     </h1>
 
-                    <p className="hidden text-xs text-gray-500 sm:block">
+                    <p className="text-xs text-gray-500 sm:block">
                         RepairHub management
                     </p>
                 </div>

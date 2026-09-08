@@ -1,91 +1,186 @@
 "use client";
 
-import React, { useMemo } from "react";
-import { User, userColumns } from "./component/columns";
+import React, { useState } from "react";
+
+import {
+    userColumns,
+} from "./component/columns";
+
 import { DataTable } from "@/components/ui/datatable";
 import { DataTableToolbar } from "@/components/ui/data-table-toolbar";
 import { PageHeader } from "@/components/ui/page-header";
+
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+
+import { Button } from "@/components/ui/button";
+
 import { Profile } from "@/types/profiles";
-import { useTechnicians } from "@/hooks";
+import {
+    useTechnicians,
+    useProfileMutations,
+} from "@/hooks";
+import DeleteModal from "@/components/ui/delete-modal";
 
 function Users() {
-    const {
-        data: technicians = [],
-        isLoading,
-    } = useTechnicians();
+    const [selectedUser, setSelectedUser] =
+        useState<Profile | null>(null);
 
-    const technicianUsers: User[] = useMemo(() => {
-        return technicians.map((technician: Profile) => ({
-            id: technician.id,
+    const [deleteUser, setDeleteUser] = useState<Profile | null>(null);
 
-            photo: technician.profile_image_url ?? null,
+    const [showStatusModal, setShowStatusModal] =
+        useState<Profile | null>(null);
 
-            name:
-                `${technician.first_name ?? ""} ${technician.last_name ?? ""
-                    }`.trim() || "Unknown User",
+    const { data: technicians = [], isLoading } =
+        useTechnicians();
 
-            email: technician.email ?? "—",
+    const { updateProfile, deleteProfile } =
+        useProfileMutations();
 
-            phone: technician.phone ?? null,
+    const adminUsers = technicians.filter(
+        (user) => user.role === "admin"
+    );
 
-            role: "technician",
+    const technicianUsers = technicians.filter(
+        (user) => user.role === "technician"
+    );
 
-            status:
-                technician.verification_status ?? "pending",
-        }));
-    }, [technicians]);
+    const handleSelect = (user: Profile) => {
+        setSelectedUser(user);
+    };
 
-    const adminUsers: User[] = useMemo(() => {
-        return technicians
-            .filter((user: Profile) => user.role === "admin")
-            .map((admin: Profile) => ({
-                id: admin.id,
+    // Active / inactive
+    const handleActiveChange = (
+        user: Profile,
+        checked: boolean
+    ) => {
+        updateProfile.mutate({
+            id: user.id,
+            payload: {
+                is_active: checked,
+            },
+        });
+    };
 
-                photo: admin.profile_image_url ?? null,
+    // Open verification modal
+    const handleVerificationChange = (user: Profile) => {
+        setShowStatusModal(user);
+    };
 
-                name:
-                    `${admin.first_name ?? ""} ${admin.last_name ?? ""
-                        }`.trim() || "Unknown User",
+    // Verify / reject
+    const handleVerificationUpdate = (
+        status: Profile["verification_status"]
+    ) => {
+        if (!showStatusModal) return;
 
-                email: admin.email ?? "—",
+        updateProfile.mutate(
+            {
+                id: showStatusModal.id,
+                payload: {
+                    verification_status: status,
+                },
+            },
+            {
+                onSuccess: () => {
+                    setShowStatusModal(null);
+                },
+            }
+        );
+    };
 
-                phone: admin.phone ?? null,
+    const handleDelete = (user: Profile) => {
+        setDeleteUser(user);
+    };
 
-                role: "admin",
+    const handleDeleteConfirm = () => {
+        if (!deleteUser) return;
 
-                status:
-                    admin.verification_status ?? "verified",
-            }));
-    }, [technicians]);
+        deleteProfile.mutate(deleteUser.id, {
+            onSuccess: () => {
+                setDeleteUser(null);
+            },
+        });
+    };
+
+    type VerificationStatus =
+        NonNullable<Profile["verification_status"]>;
+
+    const verificationOptions: Record<
+        VerificationStatus,
+        {
+            value: Profile["verification_status"];
+            label: string;
+        }[]
+    > = {
+        pending: [
+            {
+                value: "verified",
+                label: "Verify",
+            },
+            {
+                value: "rejected",
+                label: "Reject",
+            },
+        ],
+
+        verified: [
+            {
+                value: "pending",
+                label: "Pending",
+            },
+            {
+                value: "rejected",
+                label: "Reject",
+            },
+        ],
+
+        rejected: [
+            {
+                value: "verified",
+                label: "Verify",
+            },
+            {
+                value: "pending",
+                label: "Pending",
+            },
+        ],
+    };
 
     return (
         <div className="space-y-8">
-            {/* Header */}
             <PageHeader
                 title="Users"
-                description=" Manage RepairHub administrators and technicians."
+                description="Manage Addis repair administrators and technicians."
             />
 
-            {/* Admins */}
+            {/* Administrators */}
             <div className="space-y-3">
                 <h2 className="font-stretch-semi-expanded text-lg font-semibold text-gray-900">
                     Administrators
                 </h2>
+
                 <div className="space-y-4 rounded-lg bg-card p-6">
                     <DataTableToolbar
                         searchPlaceholder="Search categories..."
-                        // searchValue={search}
-                        // onSearchChange={setSearch}
-                        // onDownload={handleDownload}
-                        // onFilter={handleFilter}
-                        className="w-[50%]"
+                        className="w-full lg:w-1/2"
                     />
+
                     <DataTable
-                        columns={userColumns}
+                        columns={userColumns(
+                            handleSelect,
+                            handleVerificationChange,
+                            handleActiveChange,
+                            handleDelete
+                        )}
                         data={adminUsers}
                         isLoading={isLoading}
                     />
-
                 </div>
             </div>
 
@@ -95,24 +190,105 @@ function Users() {
                     Technicians
                 </h2>
 
-                <div className="space-y-4 bg-card p-6 rounded-lg">
+                <div className="space-y-4 rounded-lg bg-card p-6">
                     <DataTableToolbar
                         searchPlaceholder="Search technicians..."
-                        // searchValue={search}
-                        // onSearchChange={setSearch}
-                        // onDownload={handleDownload}
-                        // onFilter={handleFilter}
-                        className="w-1/2"
+                        className="w-full lg:w-1/2"
                     />
 
                     <DataTable
-                        columns={userColumns}
+                        columns={userColumns(
+                            handleSelect,
+                            handleVerificationChange,
+                            handleActiveChange,
+                            handleDelete
+                        )}
                         data={technicianUsers}
                         isLoading={isLoading}
                     />
-
                 </div>
             </div>
+
+            {/* Verification Modal */}
+            <Dialog
+                open={!!showStatusModal}
+                onOpenChange={(open) => {
+                    if (!open) {
+                        setShowStatusModal(null);
+                    }
+                }}
+            >
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>
+                            Update Verification Status
+                        </DialogTitle>
+
+                        <DialogDescription>
+                            Choose the verification status for{" "}
+                            <span className="font-medium text-gray-900">
+                                {showStatusModal?.first_name}
+                            </span>
+                            .
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="flex gap-3 py-4">
+                        {showStatusModal &&
+                            verificationOptions[showStatusModal.verification_status ?? "pending"].map(
+                                (option) => (
+                                    <Button
+                                        key={option.value}
+                                        variant={
+                                            option.value === "rejected"
+                                                ? "destructive"
+                                                : option.value === "pending"
+                                                    ? "secondary" : "primary"
+                                        }
+                                        className="flex-1"
+                                        disabled={updateProfile.isPending}
+                                        onClick={() =>
+                                            handleVerificationUpdate(
+                                                option.value
+                                            )
+                                        }
+                                    >
+                                        {option.label}
+                                    </Button>
+                                )
+                            )}
+                    </div>
+
+                    <DialogFooter>
+                        <Button
+                            variant="default"
+                            onClick={() =>
+                                setShowStatusModal(null)
+                            }
+                            disabled={
+                                updateProfile.isPending
+                            }
+                        >
+                            Cancel
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            <DeleteModal
+                open={!!deleteUser}
+                onClose={() => setDeleteUser(null)}
+                onConfirm={handleDeleteConfirm}
+                title="Delete user"
+                description="This user will be permanently removed from Addis repairs. you can deactivate the user by switching off the status before deleting. This action cannot be undone."
+                itemName={
+                    deleteUser
+                        ? `${deleteUser.first_name ?? ""} ${deleteUser.last_name ?? ""
+                            }`.trim()
+                        : undefined
+                }
+                loading={deleteProfile.isPending}
+            />
         </div>
     );
 }

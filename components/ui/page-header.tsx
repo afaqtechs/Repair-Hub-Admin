@@ -24,7 +24,7 @@ export function PageHeader({
             {/* Header */}
             <div className="min-w-0">
                 {title && (
-                    <h1 className="text-2xl font-semibold text-gray-900">
+                    <h1 className="text-lg font-semibold text-gray-900">
                         {title}
                     </h1>
                 )}

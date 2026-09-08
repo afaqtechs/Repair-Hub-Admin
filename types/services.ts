@@ -18,6 +18,8 @@ export interface Service {
 
   is_active: boolean;
 
+  is_approved?:boolean | null;
+
   images?: string[] | null;
 
   is_negotiable?: boolean | null;
@@ -36,6 +38,7 @@ export type UpdateServiceDto = Partial<{
   description: string | null;
   price: number | null;
   is_negotiable: boolean | null;
+    is_approved:boolean | null;
   estimated_duration: string | null;
   images: string[] | null;
 }>;

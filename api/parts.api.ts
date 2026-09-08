@@ -20,9 +20,8 @@ export const partApi = {
                 .select(
                     `
                     *,
-                    technician:profiles!inner(*),
+                    technician:profiles(*),
                     category:categories(*),
-                    condition:conditions(*),
                     platform:platforms(*)
                     `,
                     {
