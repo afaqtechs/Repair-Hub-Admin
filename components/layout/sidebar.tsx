@@ -10,12 +10,12 @@ import {
     ChevronUp,
     LayoutDashboard,
     Users,
-    Wrench,
     Package,
     Settings,
     Tags,
     ClipboardList,
     Cog,
+    FileQuestionMarkIcon
 } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
@@ -44,7 +44,6 @@ type MenuItem = {
 const menus: MenuItem[] = [
     { title: "Dashboard", path: "/admin", icon: LayoutDashboard },
     { title: "Users", path: "/users", icon: Users },
-    { title: "Technicians", path: "/technicians", icon: Wrench },
     { title: "Parts", path: "/parts", icon: Package },
     { title: "Services", path: "/services", icon: Cog },
     { title: "Requests", path: "/requests", icon: ClipboardList },
@@ -54,9 +53,9 @@ const menus: MenuItem[] = [
         submenu: [
             { title: "Categories", path: "/categories" },
             { title: "Platforms", path: "/platforms" },
-            { title: "Conditions", path: "/conditions" },
         ],
     },
+    { title: "Feedback", path: "/feedback", icon: FileQuestionMarkIcon },
     { title: "Settings", path: "/settings", icon: Settings },
 ];
 

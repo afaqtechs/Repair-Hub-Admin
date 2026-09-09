@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="50" viewBox="0 0 200 50">
+  <rect fill="#ffffff" width="200" height="50"/>
+  <g fill="#000000">
+    <polygon points="20,30 30,20 40,30"/>
+    <text x="50" y="27.500000000000004" font-family="system-ui, sans-serif" font-size="7.5" font-weight="bold">Acme Inc.</text>
+  </g>
+</svg>

@@ -35,7 +35,7 @@ function PartsCard({ part, onClick }: PartsCardProps) {
           </div>
         )}
 
-        <Badge variant={part.condition?.name === "New" ? "softSuccess" : "softDestructive"} className="absolute top-2 right-2">{part.condition?.name}</Badge>
+        <Badge variant={part.condition === "new" ? "softSuccess" : "softDestructive"} className="absolute top-2 right-2">{part.condition}</Badge>
 
       </div>
 

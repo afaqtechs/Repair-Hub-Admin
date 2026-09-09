@@ -94,10 +94,6 @@ function Users() {
         );
     };
 
-    const handleDelete = (user: Profile) => {
-        setDeleteUser(user);
-    };
-
     const handleDeleteConfirm = () => {
         if (!deleteUser) return;
 
@@ -175,8 +171,7 @@ function Users() {
                         columns={userColumns(
                             handleSelect,
                             handleVerificationChange,
-                            handleActiveChange,
-                            handleDelete
+                            handleActiveChange
                         )}
                         data={adminUsers}
                         isLoading={isLoading}
@@ -200,8 +195,7 @@ function Users() {
                         columns={userColumns(
                             handleSelect,
                             handleVerificationChange,
-                            handleActiveChange,
-                            handleDelete
+                            handleActiveChange
                         )}
                         data={technicianUsers}
                         isLoading={isLoading}

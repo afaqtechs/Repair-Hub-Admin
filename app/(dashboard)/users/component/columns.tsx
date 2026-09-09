@@ -1,7 +1,7 @@
 "use client";
 
 import { createColumnHelper } from "@tanstack/react-table";
-import { Eye, Trash2 } from "lucide-react";
+import { Eye } from "lucide-react";
 import Image from "next/image";
 
 import { type DataTableFeatures } from "@/components/ui/data-table-features";
@@ -49,7 +49,6 @@ export const userColumns = (
         user: Profile,
         checked: boolean
     ) => void,
-    onDelete: (user: Profile) => void
 ) =>
     columnHelper.columns([
         columnHelper.accessor("first_name", {
@@ -209,22 +208,13 @@ export const userColumns = (
                         onClick={() =>
                             onSelect(row.original)
                         }
+                        size="icon-sm"
                         variant="primary"
                         aria-label={`View ${row.original.first_name ??
                             "user"
                             }`}
                     >
                         <Eye className="h-4 w-4" />
-                    </Button>
-
-                    <Button
-                        onClick={() => onDelete(row.original)}
-                        variant="destructive"
-                        aria-label={`Delete ${row.original.first_name ??
-                            "user"
-                            }`}
-                    >
-                        <Trash2 className="h-4 w-4" />
                     </Button>
                 </div>
             ),

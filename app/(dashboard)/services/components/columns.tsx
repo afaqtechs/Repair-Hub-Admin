@@ -141,6 +141,7 @@ export const serviceColumns = (
                         onClick={() =>
                             onSelect(row.original)
                         }
+                        size="icon-sm"
                         variant="primary"
                         aria-label={`View ${row.original.title ??
                             "service"
