@@ -12,9 +12,12 @@ import { Profile } from "@/types/profiles";
 import Image from "next/image";
 import { ArrowLeft, Star } from 'lucide-react';
 import { Spinner } from "@/components/ui/loader";
+import { Button } from "@/components/ui/button";
+import DocumentViewerModal from "@/components/card/DocumentViewerModal";
+import { supabase } from "@/lib/supabase/client";
 
 type TechnicianDetailProps = {
-    techncician: Profile;
+    technician: Profile;
     parts?: Part[] | null;
     services?: Service[] | null;
     requests?: Request[] | null;
@@ -23,7 +26,7 @@ type TechnicianDetailProps = {
 };
 
 function TechnicianDetail({
-    techncician,
+    technician,
     parts,
     services,
     requests,
@@ -32,6 +35,46 @@ function TechnicianDetail({
 }: TechnicianDetailProps) {
 
     const [activeTab, setActiveTab] = useState("parts");
+    const [documentOpen, setDocumentOpen] = useState(false);
+    const [documentUrl, setDocumentUrl] = useState<string | null>(null);
+    const [documentLoading, setDocumentLoading] = useState(false);
+
+    const handleViewDocument = async () => {
+        if (!technician.legal_document_url) return;
+
+        try {
+            setDocumentLoading(true);
+
+            const { data, error } = await supabase.storage
+                .from("legal_documents")
+                .createSignedUrl(
+                    technician.legal_document_url,
+                    60 * 5
+                );
+
+            if (error) {
+                console.error("Failed to create document URL:", error);
+                return;
+            }
+
+            setDocumentUrl(data.signedUrl);
+            setDocumentOpen(true);
+        } catch (error) {
+            console.error("Failed to open document:", error);
+        } finally {
+            setDocumentLoading(false);
+        }
+    };
+
+    const filePath = technician.legal_document_url;
+
+    const fileName = filePath?.split("/").pop() || "Legal document";
+
+    const fileType = filePath?.toLowerCase().endsWith(".pdf")
+        ? "application/pdf"
+        : filePath?.match(/\.(jpg|jpeg|png|webp)$/i)
+            ? "image/*"
+            : "application/octet-stream";
 
     const tabs = [
         {
@@ -47,6 +90,8 @@ function TechnicianDetail({
             key: "requests",
         },
     ];
+
+
     return (
         <div className="space-y-8">
             {/* Header */}
@@ -61,8 +106,8 @@ function TechnicianDetail({
                 </button>
 
                 <PageHeader
-                    title={techncician.first_name + " " + techncician.last_name}
-                    description={`Manage ${techncician.first_name} details.`}
+                    title={technician.first_name + " " + technician.last_name}
+                    description={`Manage ${technician.first_name} details.`}
                 />
             </div>
 
@@ -83,12 +128,12 @@ function TechnicianDetail({
                         {/* Category */}
                         <div className="h-max">
                             <div className="flex flex-col items-center gap-0">
-                                {techncician.profile_image_url ? (
+                                {technician.profile_image_url ? (
                                     <Image
-                                        src={techncician.profile_image_url}
+                                        src={technician.profile_image_url}
                                         width={400}
                                         height={400}
-                                        alt={techncician.first_name}
+                                        alt={technician.first_name}
                                         className="h-100 lg:h-80 w-full rounded-2xl object-cover"
                                     />
                                 ) : (
@@ -96,14 +141,14 @@ function TechnicianDetail({
                                         src="/ui/placeholder_person_photo.webp"
                                         width={400}
                                         height={400}
-                                        alt={techncician.first_name}
+                                        alt={technician.first_name}
                                         className="h-100 lg:h-80 w-full rounded-2xl object-cover"
                                     />
                                 )}
 
                                 <div>
                                     <h2 className="-mt-3 text-base bg-gray-100 px-5 rounded-xl font-semibold text-gray-900">
-                                        {techncician.first_name} {techncician.last_name}
+                                        {technician.first_name} {technician.last_name}
                                     </h2>
                                 </div>
                             </div>
@@ -129,7 +174,7 @@ function TechnicianDetail({
                                     </p>
 
                                     <p className="mt-1 text-sm font-medium text-gray-900">
-                                        {techncician.email || "—"}
+                                        {technician.email || "—"}
                                     </p>
                                 </div>
 
@@ -140,7 +185,7 @@ function TechnicianDetail({
                                     </p>
 
                                     <p className="mt-1 text-sm font-medium text-gray-900">
-                                        {techncician.phone || "—"}
+                                        {technician.phone || "—"}
                                     </p>
                                 </div>
 
@@ -151,8 +196,8 @@ function TechnicianDetail({
                                     </p>
 
                                     <p className="mt-1 text-sm font-medium text-gray-900">
-                                        {techncician.experience_years != null
-                                            ? `${techncician.experience_years} ${techncician.experience_years === 1
+                                        {technician.experience_years != null
+                                            ? `${technician.experience_years} ${technician.experience_years === 1
                                                 ? "year"
                                                 : "years"
                                             }`
@@ -167,7 +212,7 @@ function TechnicianDetail({
                                     </p>
 
                                     <p className="mt-1 text-sm font-medium text-gray-900">
-                                        {techncician.address || "—"}
+                                        {technician.address || "—"}
                                     </p>
                                 </div>
 
@@ -178,7 +223,7 @@ function TechnicianDetail({
                                     </p>
 
                                     <p className="mt-1 text-sm font-medium text-gray-900">
-                                        {techncician.city || "—"}
+                                        {technician.city || "—"}
                                     </p>
                                 </div>
 
@@ -189,18 +234,18 @@ function TechnicianDetail({
                                     </p>
 
                                     <div className="mt-1 flex items-center gap-2">
-                                        {techncician.rating_avg != null && (
+                                        {technician.rating_avg != null && (
                                             <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                                         )}
                                         <span className="text-sm font-semibold text-gray-900">
-                                            {techncician.rating_avg != null
-                                                ? techncician.rating_avg.toFixed(1)
+                                            {technician.rating_avg != null
+                                                ? technician.rating_avg.toFixed(1)
                                                 : "—"}
                                         </span>
 
-                                        {techncician.rating_count != null && (
+                                        {technician.rating_count != null && (
                                             <span className="text-sm text-gray-500">
-                                                ({techncician.rating_count} reviews)
+                                                ({technician.rating_count} reviews)
                                             </span>
                                         )}
                                     </div>
@@ -214,18 +259,18 @@ function TechnicianDetail({
 
                                     <div className="mt-1">
                                         <span
-                                            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${techncician.verification_status === "verified"
+                                            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${technician.verification_status === "verified"
                                                 ? "bg-green-50 text-green-700"
-                                                : techncician.verification_status === "rejected"
+                                                : technician.verification_status === "rejected"
                                                     ? "bg-red-50 text-red-700"
                                                     : "bg-yellow-50 text-yellow-700"
                                                 }`}
                                         >
-                                            {techncician.verification_status
-                                                ? techncician.verification_status
+                                            {technician.verification_status
+                                                ? technician.verification_status
                                                     .charAt(0)
                                                     .toUpperCase() +
-                                                techncician.verification_status.slice(1)
+                                                technician.verification_status.slice(1)
                                                 : "Pending"}
                                         </span>
                                     </div>
@@ -239,13 +284,34 @@ function TechnicianDetail({
 
                                     <div className="mt-1">
                                         <span
-                                            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${techncician.role === "admin" || techncician.legal_document_url
-                                                ? "bg-green-50 text-green-700"
-                                                : "bg-red-100 text-red-600"
+                                            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${technician.role === "admin"
+                                                ? "bg-green-50 text-green-700" : technician.legal_document_url ? " "
+                                                    : "bg-red-100 text-red-600"
                                                 }`}
                                         >
-                                            {techncician.role === "admin" ? "Admin" : techncician.legal_document_url
-                                                ? "Uploaded"
+                                            {technician.role === "admin" ? "Admin" : technician.legal_document_url
+                                                ? <>
+
+                                                    <Button
+                                                        variant="primary"
+                                                        onClick={handleViewDocument}
+                                                        disabled={documentLoading}
+                                                        className="mt-1 rounded-lg border px-4 py-2 text-sm font-medium"
+                                                    >
+                                                        {documentLoading ? "Opening..." : "View Document"}
+                                                    </Button>
+
+                                                    <DocumentViewerModal
+                                                        open={documentOpen}
+                                                        onClose={() => {
+                                                            setDocumentOpen(false);
+                                                            setDocumentUrl(null);
+                                                        }}
+                                                        url={documentUrl || ""}
+                                                        fileName={fileName}
+                                                        fileType={fileType}
+                                                    />
+                                                </>
                                                 : "Not Uploaded"}
                                         </span>
                                     </div>
@@ -259,31 +325,16 @@ function TechnicianDetail({
 
                                     <div className="mt-1">
                                         <span
-                                            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${techncician.is_active
+                                            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${technician.is_active
                                                 ? "bg-green-50 text-green-700"
                                                 : "bg-red-50 text-red-700"
                                                 }`}
                                         >
-                                            {techncician.is_active
+                                            {technician.is_active
                                                 ? "Active"
                                                 : "Inactive"}
                                         </span>
                                     </div>
-                                </div>
-
-                                {/* Last seen */}
-                                <div>
-                                    <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
-                                        Last Seen
-                                    </p>
-
-                                    <p className="mt-1 text-sm font-medium text-gray-900">
-                                        {techncician.last_seen_at
-                                            ? new Date(
-                                                techncician.last_seen_at
-                                            ).toLocaleString()
-                                            : "Never"}
-                                    </p>
                                 </div>
                             </div>
 
@@ -294,7 +345,7 @@ function TechnicianDetail({
                                 </p>
 
                                 <p className="mt-2 text-sm leading-6 text-gray-600">
-                                    {techncician.bio ||
+                                    {technician.bio ||
                                         "No biography has been provided by this technician."}
                                 </p>
                             </div>
@@ -302,7 +353,7 @@ function TechnicianDetail({
 
                     </div>
 
-                    <div className="rounded-lg bg-card p-6">
+                    <div className="rounded-lg bg-card p-3 lg:p-6">
                         {/* Tabs */}
                         <div className="flex w-full items-center justify-between gap-6 border-b border-gray-200">
                             {tabs.map((tab) => (
@@ -395,6 +446,7 @@ function TechnicianDetail({
                     </div>
                 </>
             )}
+
         </div>
     )
 }

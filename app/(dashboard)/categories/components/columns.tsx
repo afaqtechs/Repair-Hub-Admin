@@ -49,7 +49,11 @@ export const categoryColumns = (
                 .toUpperCase();
 
             return (
-                <button className="flex items-center gap-3">
+                <button
+                    onClick={() =>
+                        onView(row.original)
+                    }
+                    className="group cursor-pointe flex items-center gap-3">
                     {category.icon_url ? (
                         <Image
                             src={category.icon_url}
@@ -65,7 +69,7 @@ export const categoryColumns = (
                     )}
 
                     <div>
-                        <p className="text-sm text-gray-900">
+                        <p className="group-hover:text-green-500 text-sm text-gray-900">
                             {category.name}
                         </p>
                     </div>

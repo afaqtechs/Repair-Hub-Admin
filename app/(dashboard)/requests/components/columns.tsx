@@ -45,7 +45,7 @@ export const requestColumns = (
                         onClick={() =>
                             onSelect(row.original)
                         }
-                        className="group cursor-pointer text-left flex items-center gap-3">
+                        className="min-w-max group cursor-pointer text-left flex items-center gap-3">
                         <div className="flex">
                             {request.images ? (
                                 <Image
@@ -66,7 +66,12 @@ export const requestColumns = (
                             <p
                                 className="text-sm font-medium text-gray-900 group-hover:text-green-500"
                             >
-                                {title}
+                                {title.substring(0, 30)}
+                            </p>
+                            <p
+                                className="text-xs font-medium text-gray-900 group-hover:text-green-500"
+                            >
+                                {request.category?.name}
                             </p>
                         </div>
                     </button>

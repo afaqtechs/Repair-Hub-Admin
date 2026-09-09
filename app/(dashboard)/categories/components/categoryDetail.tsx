@@ -93,7 +93,7 @@ function CategoryDetail({
                 </div>
 
                 {/* Information */}
-                <div className="col-span-2 rounded-lg bg-card p-6">
+                <div className="col-span-2 rounded-lg bg-card p-3 lg:p-6">
                     {/* Tabs */}
                     <div className="flex w-full items-center justify-between gap-6 border-b border-gray-200">
                         {tabs.map((tab) => (

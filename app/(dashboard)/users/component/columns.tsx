@@ -77,7 +77,7 @@ export const userColumns = (
                         onClick={() =>
                             onSelect(row.original)
                         }
-                        className="group cursor-pointer text-left flex items-center gap-3">
+                        className="min-w-max group cursor-pointer text-left flex items-center gap-3">
                         <div className="flex">
                             {user.profile_image_url ? (
                                 <Image
@@ -96,7 +96,7 @@ export const userColumns = (
 
                         <div >
                             <p className="group-hover:text-green-500 text-sm font-medium text-gray-900">
-                                {fullName}
+                                {fullName.substring(0, 30)}
                             </p>
 
                             <p className="text-xs group-hover:text-green-500 text-gray-500">

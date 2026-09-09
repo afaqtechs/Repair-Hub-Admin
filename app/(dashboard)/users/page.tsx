@@ -184,7 +184,7 @@ function Users() {
     if (selectedUser) {
         return (
             <TechnicianDetail
-                techncician={selectedUser}
+                technician={selectedUser}
                 parts={parts}
                 services={services}
                 requests={requests}

@@ -49,7 +49,11 @@ export const platformColumns = (
                 .toUpperCase();
 
             return (
-                <button className="flex items-center gap-3">
+                <button
+                    onClick={() =>
+                        onView(row.original)
+                    }
+                    className="group cursor-pointer flex items-center gap-3">
                     {platform.icon_url ? (
                         <Image
                             src={platform.icon_url}
@@ -65,7 +69,7 @@ export const platformColumns = (
                     )}
 
                     <div>
-                        <p className="text-sm text-gray-900">
+                        <p className="group-hover:text-green-500 text-sm text-gray-900">
                             {platform.name}
                         </p>
                     </div>
