@@ -183,13 +183,10 @@ async remove(id: string): Promise<boolean> {
             *,
             technician:profiles!inner(*,is_active),
             category:categories(*),
-            condition:conditions(*),
             platform:platforms(*)
           `
         )
         .eq('category_id', categoryId)
-        .eq('is_available', true)
-        .eq('technician.is_active', true)
         .order('created_at', {
           ascending: false,
         });
@@ -225,8 +222,6 @@ async remove(id: string): Promise<boolean> {
           `
         )
         .eq('category_id', categoryId)
-        .eq('is_active', true)
-        .eq('technician.is_active', true)
         .order('created_at', {
           ascending: false,
         });
@@ -258,8 +253,6 @@ async remove(id: string): Promise<boolean> {
           `
         )
         .eq('category_id', categoryId)
-         .eq('is_active', true)
-        .eq('technician.is_active', true)
         .order('created_at', {
           ascending: false,
         });

@@ -201,7 +201,7 @@ function PartDetail({ part, onBack }: PartDetailProps) {
 
                                 <span
                                     className={`rounded-full px-3 py-1 text-xs font-medium ${part.is_available
-                                        ? "bg-blue-50 text-blue-700"
+                                        ? "bg-green-50 text-green-700"
                                         : "bg-gray-100 text-gray-600"
                                         }`}
                                 >
@@ -219,8 +219,8 @@ function PartDetail({ part, onBack }: PartDetailProps) {
                                     Price
                                 </p>
 
-                                <p className={`text-xs font-medium ${part?.is_negotiable ? "bg-blue-50 text-blue-700" : "bg-red-50 text-red-700"} py-0 px-3 rounded-full`}>
-                                    {part?.is_negotiable ? "Negotiable" : "X Not negotiable"}
+                                <p className={`text-xs font-medium ${part?.is_negotiable ? "bg-green-50 text-green-700" : "bg-red-100 text-red-700"} py-0 px-3 rounded-full`}>
+                                    {part?.is_negotiable ? "Negotiable" : "Not negotiable"}
                                 </p>
                             </div>
 

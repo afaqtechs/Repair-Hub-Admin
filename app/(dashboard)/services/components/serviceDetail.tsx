@@ -201,7 +201,7 @@ function ServiceDetail({ service, onBack }: ServiceDetailProps) {
 
                                 <span
                                     className={`rounded-full px-3 py-1 text-xs font-medium ${service.is_active
-                                        ? "bg-blue-50 text-blue-700"
+                                        ? "bg-green-50 text-green-700"
                                         : "bg-gray-100 text-gray-600"
                                         }`}
                                 >
@@ -219,8 +219,8 @@ function ServiceDetail({ service, onBack }: ServiceDetailProps) {
                                     Price
                                 </p>
 
-                                <p className={`text-xs font-medium ${service?.is_negotiable ? "bg-blue-50 text-blue-700" : "bg-red-50 text-red-700"} py-0 px-3 rounded-full`}>
-                                    {service?.is_negotiable ? "Negotiable" : "X Not negotiable"}
+                                <p className={`text-xs font-medium ${service?.is_negotiable ? "bg-green-50 text-green-700" : "bg-red-100 text-red-700"} py-0 px-3 rounded-full`}>
+                                    {service?.is_negotiable ? "Negotiable" : "Not negotiable"}
                                 </p>
                             </div>
 

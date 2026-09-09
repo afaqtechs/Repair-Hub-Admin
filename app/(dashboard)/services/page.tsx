@@ -7,6 +7,7 @@ import { useServiceMutations, useServices } from '@/hooks'
 import { Service } from '@/types/services'
 import ServiceDetail from './components/serviceDetail'
 import { serviceColumns } from './components/columns'
+import { toast } from '@/components/ui/toast'
 
 function Services() {
 
@@ -33,6 +34,26 @@ function Services() {
       id: service.id,
       payload: {
         is_approved: checked,
+      },
+    }, {
+      onSuccess: (success) => {
+        if (!success) {
+          toast.add({
+            type: "error",
+            title: "Update Failed",
+            description:
+              "Failed to update status.",
+          });
+
+          return;
+        }
+
+        toast.add({
+          type: "success",
+          title: "Status approved",
+          description:
+            "Status approved successfully.",
+        });
       },
     });
   };

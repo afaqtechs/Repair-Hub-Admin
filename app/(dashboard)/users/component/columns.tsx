@@ -78,7 +78,7 @@ export const userColumns = (
                             onSelect(row.original)
                         }
                         className="group cursor-pointer text-left flex items-center gap-3">
-                        <div className="hidden lg:flex">
+                        <div className="flex">
                             {user.profile_image_url ? (
                                 <Image
                                     src={user.profile_image_url}

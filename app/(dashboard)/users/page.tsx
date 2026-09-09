@@ -30,6 +30,7 @@ import {
     useServicesByTechnician,
     useRequestsByTechnician,
 } from "@/hooks";
+import { toast } from "@/components/ui/toast";
 
 function Users() {
     const [selectedUser, setSelectedUser] =
@@ -80,6 +81,26 @@ function Users() {
             id: user.id,
             payload: {
                 is_active: checked,
+            },
+        }, {
+            onSuccess: (success) => {
+                if (!success) {
+                    toast.add({
+                        type: "error",
+                        title: "Update Failed",
+                        description:
+                            "Failed to update status.",
+                    });
+
+                    return;
+                }
+
+                toast.add({
+                    type: "success",
+                    title: "Status updated",
+                    description:
+                        "Status updated successfully.",
+                });
             },
         });
     };

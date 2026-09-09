@@ -44,7 +44,7 @@ export const serviceColumns = (
                             onSelect(row.original)
                         }
                         className="group cursor-pointer text-left flex items-center gap-3">
-                        <div className="hidden lg:flex">
+                        <div className="flex">
                             {service.images ? (
                                 <Image
                                     src={service.images[0]}

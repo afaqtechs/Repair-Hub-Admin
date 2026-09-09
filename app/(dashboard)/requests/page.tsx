@@ -7,6 +7,7 @@ import { useRequestMutations, useRequests } from '@/hooks'
 import RequestDetail from './components/requestDetail'
 import { requestColumns } from './components/columns'
 import { Request } from '@/types/requests'
+import { toast } from '@/components/ui/toast'
 
 function Requests() {
 
@@ -33,6 +34,26 @@ function Requests() {
             id: request.id,
             payload: {
                 is_approved: checked,
+            },
+        }, {
+            onSuccess: (success) => {
+                if (!success) {
+                    toast.add({
+                        type: "error",
+                        title: "Update Failed",
+                        description:
+                            "Failed to update status.",
+                    });
+
+                    return;
+                }
+
+                toast.add({
+                    type: "success",
+                    title: "Status approved",
+                    description:
+                        "Status approved successfully.",
+                });
             },
         });
     };

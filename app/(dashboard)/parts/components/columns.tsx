@@ -45,7 +45,7 @@ export const partColumns = (
                             onSelect(row.original)
                         }
                         className="group cursor-pointer text-left flex items-center gap-3">
-                        <div className="hidden lg:flex">
+                        <div className="flex">
                             {part.images ? (
                                 <Image
                                     src={part.images[0]}

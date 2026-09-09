@@ -7,6 +7,7 @@ import { useParts, usePartsMutations } from '@/hooks'
 import { partColumns } from './components/columns'
 import { Part } from '@/types/parts'
 import PartDetail from './components/partDetail'
+import { toast } from '@/components/ui/toast'
 
 function Parts() {
 
@@ -33,6 +34,26 @@ function Parts() {
             id: part.id,
             payload: {
                 is_approved: checked,
+            },
+        }, {
+            onSuccess: (success) => {
+                if (!success) {
+                    toast.add({
+                        type: "error",
+                        title: "Update Failed",
+                        description:
+                            "Failed to update status.",
+                    });
+
+                    return;
+                }
+
+                toast.add({
+                    type: "success",
+                    title: "Status approved",
+                    description:
+                        "Status approved successfully.",
+                });
             },
         });
     };

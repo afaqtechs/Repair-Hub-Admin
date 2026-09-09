@@ -92,9 +92,13 @@ function TechnicianDetail({
                                         className="h-100 lg:h-80 w-full rounded-2xl object-cover"
                                     />
                                 ) : (
-                                    <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gray-100 text-gray-400">
-                                        —
-                                    </div>
+                                    <Image
+                                        src="/ui/placeholder_person_photo.webp"
+                                        width={400}
+                                        height={400}
+                                        alt={techncician.first_name}
+                                        className="h-100 lg:h-80 w-full rounded-2xl object-cover"
+                                    />
                                 )}
 
                                 <div>
@@ -116,7 +120,7 @@ function TechnicianDetail({
                                 </p>
                             </div>
 
-                            <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+                            <div className="grid grid-cols-2 gap-x-8 gap-y-6">
 
                                 {/* Email */}
                                 <div>
@@ -230,19 +234,19 @@ function TechnicianDetail({
                                 {/* Availability */}
                                 <div>
                                     <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
-                                        Availability
+                                        Document
                                     </p>
 
                                     <div className="mt-1">
                                         <span
-                                            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${techncician.is_available
+                                            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${techncician.role === "admin" || techncician.legal_document_url
                                                 ? "bg-green-50 text-green-700"
-                                                : "bg-gray-100 text-gray-600"
+                                                : "bg-red-100 text-red-600"
                                                 }`}
                                         >
-                                            {techncician.is_available
-                                                ? "Available"
-                                                : "Unavailable"}
+                                            {techncician.role === "admin" ? "Admin" : techncician.legal_document_url
+                                                ? "Uploaded"
+                                                : "Not Uploaded"}
                                         </span>
                                     </div>
                                 </div>

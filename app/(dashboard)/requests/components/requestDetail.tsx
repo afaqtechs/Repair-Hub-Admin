@@ -193,7 +193,7 @@ function RequestDetail({ request, onBack }: RequestDetailProps) {
 
                                 <span
                                     className={`rounded-full px-3 py-1 text-xs font-medium ${request.is_active
-                                        ? "bg-blue-50 text-blue-700"
+                                        ? "bg-green-50 text-green-700"
                                         : "bg-gray-100 text-gray-600"
                                         }`}
                                 >

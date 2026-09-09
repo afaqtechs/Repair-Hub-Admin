@@ -5,15 +5,15 @@ import { ArrowUpDown, Eye, Trash2 } from "lucide-react";
 import Image from "next/image";
 
 import { type DataTableFeatures } from "@/components/ui/data-table-features";
-import { Category } from "@/types/category";
 import { Button } from "@/components/ui/button";
+import { Platform } from "@/types/platform";
 
 const columnHelper =
-    createColumnHelper<DataTableFeatures, Category>();
+    createColumnHelper<DataTableFeatures, Platform>();
 
-export const categoryColumns = (
-    onDelete: (category: Category) => void,
-    onView: (category: Category) => void
+export const platformColumns = (
+    onDelete: (platform: Platform) => void,
+    onView: (platform: Platform) => void
 ) => columnHelper.columns([
     columnHelper.accessor("name", {
         header: ({ column }) => (
@@ -26,21 +26,21 @@ export const categoryColumns = (
                 }
                 className="flex items-center gap-1 text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-gray-700"
             >
-                Category
+                Platform
                 <ArrowUpDown className="h-3 w-3" />
             </button>
         ),
 
         cell: ({ row }) => {
-            const category = row.original;
+            const platform = row.original;
 
-            const title = category.name ?? "";
+            const title = platform.name ?? "";
 
-            const categoryName =
+            const platformName =
                 `${title}`.trim() ||
                 "Unknown";
 
-            const initials = categoryName
+            const initials = platformName
                 .split(" ")
                 .filter(Boolean)
                 .map((title) => title[0])
@@ -50,12 +50,12 @@ export const categoryColumns = (
 
             return (
                 <button className="flex items-center gap-3">
-                    {category.icon_url ? (
+                    {platform.icon_url ? (
                         <Image
-                            src={category.icon_url}
+                            src={platform.icon_url}
                             width={40}
                             height={40}
-                            alt={category.name}
+                            alt={platform.name}
                             className="h-10 w-10 rounded-xl object-cover"
                         />
                     ) : (
@@ -66,7 +66,7 @@ export const categoryColumns = (
 
                     <div>
                         <p className="text-sm text-gray-900">
-                            {category.name}
+                            {platform.name}
                         </p>
                     </div>
                 </button>
