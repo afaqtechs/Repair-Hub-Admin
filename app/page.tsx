@@ -33,7 +33,7 @@ function HomePage() {
             <div className="w-full max-w-md text-center">
                 <div className="mb-8">
                     <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-                        Welcome to Repair Hub
+                        Welcome to Addis Repairs
                     </h1>
 
                     <p className="mt-3 text-gray-500">
