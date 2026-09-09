@@ -77,26 +77,7 @@ export function useProfileMutations() {
         },
     });
 
-    // Delete user completely
-    const deleteProfile = useMutation({
-        mutationFn: (userId: string) =>
-            profileApi.deleteUser(userId),
-
-        onSuccess: (_, userId) => {
-            // Remove deleted user's detail cache
-            queryClient.removeQueries({
-                queryKey: PROFILE_KEYS.detail(userId),
-            });
-
-            // Refresh users list
-            queryClient.invalidateQueries({
-                queryKey: PROFILE_KEYS.technicians(),
-            });
-        },
-    });
-
     return {
-        updateProfile,
-        deleteProfile,
+        updateProfile
     };
 }

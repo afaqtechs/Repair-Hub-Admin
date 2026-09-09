@@ -1,6 +1,6 @@
-# RepairHub Admin Panel
+# Addis Repairs Admin Panel
 
-RepairHub Admin Panel is a web-based administration dashboard for managing and monitoring the RepairHub platform. It provides administrators with centralized tools to manage technicians, users, services, spare parts, categories, reviews, and other platform data.
+Addis Repairs Admin Panel is a web-based administration dashboard for managing and monitoring the Addis Repairs platform. It provides administrators with centralized tools to manage technicians, users, services, spare parts, categories, reviews, and other platform data.
 
 The dashboard is designed to give administrators a clear overview of the platform while providing efficient management, verification, and moderation capabilities.
 
@@ -27,4 +27,4 @@ The dashboard is designed to give administrators a clear overview of the platfor
 * **React Query**
 * **shadcn/ui**
 
-RepairHub Admin Panel serves as the administrative interface for the RepairHub ecosystem, providing the tools required to operate, moderate, and maintain the platform efficiently.
+Addis Repairs Admin Panel serves as the administrative interface for the Addis Repairs ecosystem, providing the tools required to operate, moderate, and maintain the platform efficiently.

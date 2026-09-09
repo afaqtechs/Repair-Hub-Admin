@@ -26,13 +26,10 @@ import {
     useTechnicians,
     useProfileMutations,
 } from "@/hooks";
-import DeleteModal from "@/components/ui/delete-modal";
 
 function Users() {
     const [selectedUser, setSelectedUser] =
         useState<Profile | null>(null);
-
-    const [deleteUser, setDeleteUser] = useState<Profile | null>(null);
 
     const [showStatusModal, setShowStatusModal] =
         useState<Profile | null>(null);
@@ -40,7 +37,7 @@ function Users() {
     const { data: technicians = [], isLoading } =
         useTechnicians();
 
-    const { updateProfile, deleteProfile } =
+    const { updateProfile } =
         useProfileMutations();
 
     const adminUsers = technicians.filter(
@@ -92,16 +89,6 @@ function Users() {
                 },
             }
         );
-    };
-
-    const handleDeleteConfirm = () => {
-        if (!deleteUser) return;
-
-        deleteProfile.mutate(deleteUser.id, {
-            onSuccess: () => {
-                setDeleteUser(null);
-            },
-        });
     };
 
     type VerificationStatus =
@@ -268,21 +255,6 @@ function Users() {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-
-            <DeleteModal
-                open={!!deleteUser}
-                onClose={() => setDeleteUser(null)}
-                onConfirm={handleDeleteConfirm}
-                title="Delete user"
-                description="This user will be permanently removed from Addis repairs. you can deactivate the user by switching off the status before deleting. This action cannot be undone."
-                itemName={
-                    deleteUser
-                        ? `${deleteUser.first_name ?? ""} ${deleteUser.last_name ?? ""
-                            }`.trim()
-                        : undefined
-                }
-                loading={deleteProfile.isPending}
-            />
         </div>
     );
 }
