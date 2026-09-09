@@ -63,7 +63,7 @@ export default function Login() {
                 <div className="mb-10 relative z-10 overflow-hidden">
                     <Image
                         src={logo}
-                        alt="RepairHub"
+                        alt="Addis Repair"
                         width={220}
                         height={70}
                         className="h-48 w-48 object-contain rounded-full object-left"
@@ -74,7 +74,7 @@ export default function Login() {
                 <div className="relative z-10 text-end px-10">
                     <h1 className="max-w-lg text-4xl font-bold tracking-tight text-gray-100 xl:text-5xl font-serif">
                         Everything you need to manage{" "}
-                        <span className="text-emerald-500">RepairHub.</span>
+                        <span className="text-emerald-500">Addis Repair.</span>
                     </h1>
 
                     <p className="mt-6 max-w-lg text-base leading-7 text-gray-400 font-light">
@@ -96,7 +96,7 @@ export default function Login() {
                         Welcome back
                     </h1>
                     <p className="text-base text-gray-400 font-light text-center">
-                        Sign in to your RepairHub admin account.
+                        Sign in to your Addis Repair admin account.
                     </p>
                 </div>
 
@@ -113,7 +113,7 @@ export default function Login() {
                         <Input
                             id="email"
                             type="email"
-                            placeholder="admin@repairhub.com"
+                            placeholder="admin@addisrepair.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             disabled={loading}
