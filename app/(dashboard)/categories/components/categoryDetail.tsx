@@ -68,15 +68,15 @@ function CategoryDetail({
             {/* Category content */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                 {/* Category */}
-                <div className="h-max rounded-lg bg-card p-3">
-                    <div className="flex flex-col items-center gap-4">
+                <div className="h-max">
+                    <div className="flex flex-col items-center gap-0">
                         {category.icon_url ? (
                             <Image
                                 src={category.icon_url}
                                 width={80}
                                 height={80}
                                 alt={category.name}
-                                className="h-50 w-full rounded-2xl object-cover"
+                                className="h-100 lg:h-80 w-full rounded-2xl object-cover"
                             />
                         ) : (
                             <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gray-100 text-gray-400">
@@ -85,7 +85,7 @@ function CategoryDetail({
                         )}
 
                         <div>
-                            <h2 className="text-xl font-semibold text-gray-900">
+                            <h2 className="-mt-3 text-base bg-gray-100 px-5 rounded-xl font-semibold text-gray-900">
                                 {category.name}
                             </h2>
                         </div>
@@ -102,14 +102,14 @@ function CategoryDetail({
                                 type="button"
                                 onClick={() => setActiveTab(tab.key)}
                                 className={`w-full relative flex cursor-pointer items-center justify-center px-1 py-3 text-sm font-medium transition-colors ${activeTab === tab.key
-                                    ? "text-[#5B3DF5]"
+                                    ? "text-[#3fc92f]"
                                     : "text-gray-500 hover:text-gray-900"
                                     }`}
                             >
                                 {tab.label}
 
                                 {activeTab === tab.key && (
-                                    <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-[#5B3DF5]" />
+                                    <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-[#42f54b]" />
                                 )}
                             </button>
                         ))}

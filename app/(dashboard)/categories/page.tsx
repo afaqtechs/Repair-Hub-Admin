@@ -169,7 +169,7 @@ function Categories() {
                             {loading ? (
                                 <div className="flex min-h-50 items-center justify-center">
                                     <Spinner
-                                        variant="primary"
+                                        variant="success"
                                         size="default"
                                         type="loader"
                                         className=""

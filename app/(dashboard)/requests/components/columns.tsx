@@ -40,7 +40,12 @@ export const requestColumns = (
                     .toUpperCase();
 
                 return (
-                    <div className="flex items-center gap-3">
+                    <button
+                        type="button"
+                        onClick={() =>
+                            onSelect(row.original)
+                        }
+                        className="group cursor-pointer text-left flex items-center gap-3">
                         <div className="hidden lg:flex">
                             {request.images ? (
                                 <Image
@@ -51,7 +56,7 @@ export const requestColumns = (
                                     className="h-9 w-9 rounded-full object-cover"
                                 />
                             ) : (
-                                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-600">
+                                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green-100 text-xs font-semibold text-green-600">
                                     {initials}
                                 </div>
                             )}
@@ -59,15 +64,12 @@ export const requestColumns = (
 
                         <div>
                             <p
-                                onClick={() =>
-                                    onSelect(row.original)
-                                }
-                                className="text-sm font-medium text-gray-900 hover:text-green-500"
+                                className="text-sm font-medium text-gray-900 group-hover:text-green-500"
                             >
                                 {title}
                             </p>
                         </div>
-                    </div>
+                    </button>
                 );
             },
         }),

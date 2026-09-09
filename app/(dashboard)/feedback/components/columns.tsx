@@ -48,7 +48,12 @@ export const feedbackColumns = (
                     .join(" ");
 
                 return (
-                    <div className="flex items-center gap-3">
+                    <button
+                        type="button"
+                        onClick={() =>
+                            onTechnicianClick(row.original)
+                        }
+                        className="group cursor-pointer text-left flex items-center gap-3">
                         {technician?.profile_image_url ? (
                             <Image
                                 src={technician.profile_image_url}
@@ -58,7 +63,7 @@ export const feedbackColumns = (
                                 className="h-10 w-10 hidden lg:flex rounded-full object-cover"
                             />
                         ) : (
-                            <div className=" h-10 w-10 hidden lg:flex shrink-0 items-center justify-center rounded-full bg-gray-100 text-sm font-medium text-gray-400">
+                            <div className=" h-10 w-10 hidden lg:flex shrink-0 items-center justify-center rounded-full bg-green-100 text-sm font-medium text-green-400">
                                 {name
                                     ? name
                                         .charAt(0)
@@ -67,24 +72,18 @@ export const feedbackColumns = (
                             </div>
                         )}
 
-                        <button
-                            type="button"
-                            onClick={() =>
-                                onTechnicianClick(row.original)
-                            }
-                            className="text-left"
-                        >
-                            <p className="cursor-pointer text-sm font-medium text-gray-900 hover:text-green-500">
+                        <div>
+                            <p className="cursor-pointer text-sm font-medium text-gray-900 group-hover:text-green-500">
                                 {name || "Unknown technician"}
                             </p>
 
                             {technician?.email && (
-                                <p className="text-xs text-gray-500">
+                                <p className="text-xs text-gray-500 group-hover:text-green-500">
                                     {technician.email}
                                 </p>
                             )}
-                        </button>
-                    </div>
+                        </div>
+                    </button>
                 );
             },
         }),

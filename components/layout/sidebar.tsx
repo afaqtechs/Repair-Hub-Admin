@@ -128,7 +128,7 @@ export function Sidebar({ isOpen, setIsOpen, collapsed, setCollapsed, user }: Si
                         type="button"
                         aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
                         onClick={() => setCollapsed(!collapsed)}
-                        className="hidden rounded-full p-1.5 text-gray-400 transition bg-gray-800 hover:bg-gray-900 hover:text-gray-200 lg:flex"
+                        className="cursor-pointer hidden rounded-full p-1.5 text-gray-400 transition bg-gray-800 hover:bg-gray-900 hover:text-gray-200 lg:flex"
                     >
                         {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
                     </button>

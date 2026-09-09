@@ -35,7 +35,7 @@ export const categoryColumns = (
             const category = row.original;
 
             return (
-                <div className="flex items-center gap-3">
+                <button className="flex items-center gap-3">
                     {category.icon_url ? (
                         <Image
                             src={category.icon_url}
@@ -55,7 +55,7 @@ export const categoryColumns = (
                             {category.name}
                         </p>
                     </div>
-                </div>
+                </button>
             );
         },
     }),

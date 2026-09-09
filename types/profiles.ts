@@ -19,8 +19,6 @@ export interface Profile {
 
   experience_years?: number | null;
 
-  specialty?: string | null;
-
   legal_document_url: string | null;
 
   city: string | null;

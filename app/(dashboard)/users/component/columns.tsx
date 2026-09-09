@@ -73,7 +73,11 @@ export const userColumns = (
                     .toUpperCase();
 
                 return (
-                    <div className="flex items-center gap-3">
+                    <button type="button"
+                        onClick={() =>
+                            onSelect(row.original)
+                        }
+                        className="group cursor-pointer text-left flex items-center gap-3">
                         <div className="hidden lg:flex">
                             {user.profile_image_url ? (
                                 <Image
@@ -84,22 +88,22 @@ export const userColumns = (
                                     className="h-9 w-9 rounded-full object-cover"
                                 />
                             ) : (
-                                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-600">
+                                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green-100 text-xs font-semibold text-green-600">
                                     {initials}
                                 </div>
                             )}
                         </div>
 
-                        <div>
-                            <p className="text-sm font-medium text-gray-900">
+                        <div >
+                            <p className="group-hover:text-green-500 text-sm font-medium text-gray-900">
                                 {fullName}
                             </p>
 
-                            <p className="text-xs text-gray-500">
+                            <p className="text-xs group-hover:text-green-500 text-gray-500">
                                 {user.email ?? "—"}
                             </p>
                         </div>
-                    </div>
+                    </button>
                 );
             },
         }),

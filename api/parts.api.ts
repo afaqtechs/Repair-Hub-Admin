@@ -69,7 +69,6 @@ export const partApi = {
                     *,
                     technician:profiles(*),
                     category:categories(*),
-                    condition:conditions(*),
                     platform:platforms(*)
                     `
                 )
@@ -103,7 +102,6 @@ export const partApi = {
                     *,
                     technician:profiles!inner(*),
                     category:categories(*),
-                    condition:conditions(*),
                     platform:platforms(*)
                     `
                 )

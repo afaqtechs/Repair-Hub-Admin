@@ -22,9 +22,13 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { Profile } from "@/types/profiles";
+import TechnicianDetail from './component/technicianDetail';
 import {
     useTechnicians,
     useProfileMutations,
+    usePartByTechnician,
+    useServicesByTechnician,
+    useRequestsByTechnician,
 } from "@/hooks";
 
 function Users() {
@@ -48,6 +52,21 @@ function Users() {
         (user) => user.role === "technician"
     );
 
+    const {
+        data: parts,
+        isLoading: loadingPart,
+    } = usePartByTechnician(String(selectedUser?.id));
+
+    const {
+        data: services,
+        isLoading: loadingService,
+    } = useServicesByTechnician(String(selectedUser?.id));
+
+    const {
+        data: requests,
+        isLoading: loadingRequest,
+    } = useRequestsByTechnician(String(selectedUser?.id));
+
     const handleSelect = (user: Profile) => {
         setSelectedUser(user);
     };
@@ -63,6 +82,10 @@ function Users() {
                 is_active: checked,
             },
         });
+    };
+
+    const handleBack = () => {
+        setSelectedUser(null);
     };
 
     // Open verification modal
@@ -135,7 +158,23 @@ function Users() {
         ],
     };
 
+    const loading = loadingPart || loadingService || loadingRequest;
+
+    if (selectedUser) {
+        return (
+            <TechnicianDetail
+                techncician={selectedUser}
+                parts={parts}
+                services={services}
+                requests={requests}
+                onBack={handleBack}
+                isLoading={loading}
+            />
+        );
+    }
+
     return (
+
         <div className="space-y-8">
             <PageHeader
                 title="Users"
@@ -256,6 +295,7 @@ function Users() {
                 </DialogContent>
             </Dialog>
         </div>
+
     );
 }
 
