@@ -31,27 +31,209 @@ import {
     useRequestsByTechnician,
 } from "@/hooks";
 import { toast } from "@/components/ui/toast";
+import { useSearchParams } from "next/navigation";
+import { FilterConfig } from "@/components/ui/filter-dropdown";
+import { RefreshCw } from "lucide-react";
+
+const userFilters: FilterConfig[] = [
+    {
+        key: "verification",
+        label: "Verification",
+        countable: true,
+        options: [
+            {
+                label: "All",
+                value: "all",
+            },
+            {
+                label: "Pending",
+                value: "pending",
+            },
+            {
+                label: "Verified",
+                value: "verified",
+            },
+            {
+                label: "Rejected",
+                value: "rejected",
+            },
+        ],
+    },
+
+    {
+        key: "document",
+        label: "Legal Document",
+        countable: true,
+        options: [
+            {
+                label: "All",
+                value: "all",
+            },
+            {
+                label: "Submitted",
+                value: "submitted",
+            },
+            {
+                label: "Not submitted",
+                value: "not-submitted",
+            },
+        ],
+    },
+
+    {
+        key: "status",
+        label: "Status",
+        countable: true,
+        options: [
+            {
+                label: "All",
+                value: "all",
+            },
+            {
+                label: "Active",
+                value: "active",
+            },
+            {
+                label: "Inactive",
+                value: "inactive",
+            },
+        ],
+    },
+];
 
 function Users() {
-    const [selectedUser, setSelectedUser] =
-        useState<Profile | null>(null);
+    const searchParams = useSearchParams();
+
+    const technicianId = searchParams.get("technicianId");
+
+    const [adminSearch, setAdminSearch] = useState("");
+    const [technicianSearch, setTechnicianSearch] = useState("");
+
+    const defaultUserFilters = {
+        verification: "all",
+        document: "all",
+        status: "all",
+    };
+
+    const [filters, setFilters] =
+        useState(defaultUserFilters);
 
     const [showStatusModal, setShowStatusModal] =
         useState<Profile | null>(null);
 
-    const { data: technicians = [], isLoading } =
+    const { data: technicians = [], isLoading, refetch: refetchUser, isRefetching: refreshing } =
         useTechnicians();
 
     const { updateProfile } =
         useProfileMutations();
 
-    const adminUsers = technicians.filter(
-        (user) => user.role === "admin"
+    const filterUsers = (
+        users: Profile[],
+        search: string
+    ) => {
+        const query = search.trim().toLowerCase();
+
+        const result = users.filter((user) => {
+            // -------------------------
+            // Search
+            // -------------------------
+
+            if (query) {
+                const searchableText = [
+                    user.first_name,
+                    user.last_name,
+                    `${user.first_name ?? ""} ${user.last_name ?? ""}`,
+                    user.email,
+                    user.phone,
+                    user.city,
+                    user.address,
+                ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
+
+                if (!searchableText.includes(query)) {
+                    return false;
+                }
+            }
+
+            // -------------------------
+            // Verification
+            // -------------------------
+
+            if (
+                filters.verification !== "all" &&
+                user.verification_status !==
+                filters.verification
+            ) {
+                return false;
+            }
+
+            // -------------------------
+            // Legal document
+            // -------------------------
+
+            const hasDocument =
+                !!user.legal_document_url?.trim();
+
+            if (
+                filters.document === "submitted" &&
+                !hasDocument
+            ) {
+                return false;
+            }
+
+            if (
+                filters.document === "not-submitted" &&
+                hasDocument
+            ) {
+                return false;
+            }
+
+            // -------------------------
+            // Active / inactive
+            // -------------------------
+
+            if (
+                filters.status === "active" &&
+                user.is_active !== true
+            ) {
+                return false;
+            }
+
+            if (
+                filters.status === "inactive" &&
+                user.is_active !== false
+            ) {
+                return false;
+            }
+
+            return true;
+        });
+
+        return result;
+    };
+
+    const adminUsers = filterUsers(
+        technicians.filter(
+            (user) => user.role === "admin"
+        ),
+        adminSearch
     );
 
-    const technicianUsers = technicians.filter(
-        (user) => user.role === "technician"
+    const technicianUsers = filterUsers(
+        technicians.filter(
+            (user) => user.role === "technician"
+        ),
+        technicianSearch
     );
+
+    const selectedFromList = technicians?.find(
+        (technician) => technician.id === technicianId
+    );
+
+    const [selectedUser, setSelectedUser] =
+        useState<Profile | null>(selectedFromList || null);
 
     const {
         data: parts,
@@ -200,6 +382,20 @@ function Users() {
             <PageHeader
                 title="Users"
                 description="Manage Addis repair administrators and technicians."
+                action={
+                    <div className="flex items-center gap-2">
+                        <Button
+                            variant="default"
+                            onClick={() =>
+                                refetchUser()
+                            }
+                        >
+                            <span className={`${refreshing ? "animate-spin" : ""}`}>
+                                <RefreshCw size={18} color="#2563EB" />
+                            </span>
+                        </Button>
+                    </div>
+                }
             />
 
             {/* Administrators */}
@@ -212,6 +408,9 @@ function Users() {
                     <DataTableToolbar
                         searchPlaceholder="Search categories..."
                         className="w-full lg:w-1/2"
+                        searchValue={adminSearch}
+                        onSearchChange={setAdminSearch}
+                        showDownload={false}
                     />
 
                     <DataTable
@@ -222,6 +421,7 @@ function Users() {
                         )}
                         data={adminUsers}
                         isLoading={isLoading}
+
                     />
                 </div>
             </div>
@@ -236,6 +436,22 @@ function Users() {
                     <DataTableToolbar
                         searchPlaceholder="Search technicians..."
                         className="w-full lg:w-1/2"
+                        searchValue={technicianSearch}
+                        onSearchChange={setTechnicianSearch}
+                        showDownload={false}
+                        filters={userFilters}
+                        filterValues={filters}
+
+                        onFilterChange={(key, value) => {
+                            setFilters((prev) => ({
+                                ...prev,
+                                [key]: value,
+                            }));
+                        }}
+
+                        onResetFilters={() => {
+                            setFilters(defaultUserFilters);
+                        }}
                     />
 
                     <DataTable

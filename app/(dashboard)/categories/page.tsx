@@ -15,10 +15,15 @@ import Image from "next/image";
 import { Spinner } from "@/components/ui/loader";
 import DeleteModal from "@/components/ui/delete-modal";
 import { toast } from "@/components/ui/toast";
+import { useSearchParams } from "next/navigation";
 
 function Categories() {
-    // Category selected from the table
-    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+
+    const searchParams = useSearchParams();
+
+    const categoryId = searchParams.get("categoryId");
+
+    // Category selected from the table;
     const [showDetail, setShowDetail] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
 
@@ -30,6 +35,12 @@ function Categories() {
         data: categories = [],
         isLoading: loadingCategory,
     } = useCategories();
+
+    const selectedFromList = categories?.find(
+        (category) => category.id === categoryId
+    );
+
+    const [selectedCategory, setSelectedCategory] = useState<Category | null>(selectedFromList || null)
 
     const {
         data: parts,
@@ -122,10 +133,6 @@ function Categories() {
                 description="Manage RepairHub repair categories."
                 action={
                     <div className="flex items-center gap-2">
-                        <Button variant="primary">
-                            Export
-                        </Button>
-
                         <Button
                             variant="primary"
                             onClick={() =>

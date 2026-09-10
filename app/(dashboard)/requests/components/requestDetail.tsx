@@ -11,6 +11,7 @@ import {
     UserRound,
 } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 interface RequestDetailProps {
@@ -19,6 +20,8 @@ interface RequestDetailProps {
 }
 
 function RequestDetail({ request, onBack }: RequestDetailProps) {
+    const router = useRouter();
+
     const images = Array.isArray(request.images)
         ? request.images.filter(Boolean)
         : [];
@@ -61,7 +64,7 @@ function RequestDetail({ request, onBack }: RequestDetailProps) {
             {/* Main content */}
             <div className="grid gap-6 grid-cols-1 lg:grid-cols-5">
                 {/* Left */}
-                <div className="space-y-6 col-span-2">
+                <div className="space-y-3 col-span-2">
                     {/* Images */}
                     <div className="rounded-2xl bg-card p-3">
                         <div className="relative overflow-hidden rounded-xl">
@@ -165,7 +168,7 @@ function RequestDetail({ request, onBack }: RequestDetailProps) {
                 </div>
 
                 {/* Right */}
-                <div className="space-y-6 col-span-3">
+                <div className="space-y-3 col-span-3">
                     {/* Main information */}
                     <div className="rounded-2xl bg-card p-6">
                         <div className="flex flex-wrap items-start justify-between gap-3">
@@ -201,6 +204,14 @@ function RequestDetail({ request, onBack }: RequestDetailProps) {
                                         ? "Active"
                                         : "In Active"}
                                 </span>
+
+                                {request?.priority === "urgent" && (
+                                    <span
+                                        className={`rounded-full px-3 py-1 text-xs font-medium bg-red-100 text-red-700`}
+                                    >
+                                        {request.priority}
+                                    </span>
+                                )}
                             </div>
                         </div>
 
@@ -237,7 +248,7 @@ function RequestDetail({ request, onBack }: RequestDetailProps) {
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-3">
+                        <button onClick={() => router.push(`/users?technicianId=${request.technician?.id}`)} className="group cursor-pointer flex items-center gap-3">
                             <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100">
                                 {request.technician?.profile_image_url ? (
                                     <Image
@@ -256,7 +267,7 @@ function RequestDetail({ request, onBack }: RequestDetailProps) {
                             </div>
 
                             <div className="min-w-0">
-                                <p className="truncate text-sm font-semibold text-gray-900">
+                                <p className="group-hover:text-green-500 truncate text-sm font-semibold text-gray-900">
                                     {[
                                         request.technician?.first_name,
                                         request.technician?.last_name,
@@ -266,7 +277,7 @@ function RequestDetail({ request, onBack }: RequestDetailProps) {
                                 </p>
 
                                 {request.technician?.city && (
-                                    <div className="mt-1 flex items-center gap-1 text-xs text-gray-500">
+                                    <div className="group-hover:text-green-500 mt-1 flex items-center gap-1 text-xs text-gray-500">
                                         <MapPin className="h-3.5 w-3.5" />
                                         <span>
                                             {request.technician.city}
@@ -274,7 +285,7 @@ function RequestDetail({ request, onBack }: RequestDetailProps) {
                                     </div>
                                 )}
                             </div>
-                        </div>
+                        </button>
                     </div>
 
                     {/* Verification */}

@@ -4,10 +4,17 @@ import React from "react";
 import {
     Search,
     Download,
-    Filter,
+    RefreshCcw,
+    RefreshCw,
 } from "lucide-react";
+
 import { Button } from "./button";
 import Styles from "@/constants/styles";
+
+import {
+    FilterDropdown,
+    FilterConfig,
+} from "./filter-dropdown";
 
 type DataTableToolbarProps = {
     searchValue?: string;
@@ -16,18 +23,34 @@ type DataTableToolbarProps = {
     searchPlaceholder?: string;
 
     onDownload?: () => void;
-    onFilter?: () => void;
+
+    onRefresh?: () => void;
 
     downloadLabel?: string;
-    filterLabel?: string;
 
     downloadDisabled?: boolean;
-    filterDisabled?: boolean;
+
+    refreshing?: boolean;
 
     showDownload?: boolean;
-    showFilter?: boolean;
+
+    showRefresh?: boolean;
 
     className?: string;
+
+    // Generic filters
+    filters?: FilterConfig[];
+    filterValues?: Record<
+        string,
+        string | string[]
+    >;
+
+    onFilterChange?: (
+        key: string,
+        value: string | string[]
+    ) => void;
+
+    onResetFilters?: () => void;
 };
 
 export function DataTableToolbar({
@@ -36,19 +59,30 @@ export function DataTableToolbar({
     searchPlaceholder = "Search...",
 
     onDownload,
-    onFilter,
+
+    onRefresh,
 
     downloadLabel = "Download",
-    filterLabel = "Filter",
 
     downloadDisabled = false,
-    filterDisabled = false,
+
+    refreshing = false,
 
     showDownload = true,
-    showFilter = true,
+
+    showRefresh,
 
     className = "",
+
+    filters = [],
+    filterValues = {},
+    onFilterChange,
+    onResetFilters,
 }: DataTableToolbarProps) {
+    const hasFilters =
+        filters.length > 0 &&
+        !!onFilterChange;
+
     return (
         <div
             className={`flex items-center gap-2 ${className}`}
@@ -66,7 +100,6 @@ export function DataTableToolbar({
                         onSearchChange?.(e.target.value)
                     }
                     placeholder={searchPlaceholder}
-                    // className="h-9 w-full rounded-md border border-gray-200 bg-white py-2 pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-400 outline-none transition-all focus:border-gray-400 focus:ring-1 focus:ring-gray-200"
                     className={`${Styles.input} pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-400 outline-none transition-all`}
                 />
             </div>
@@ -79,7 +112,8 @@ export function DataTableToolbar({
                         onClick={onDownload}
                         size="icon-lg"
                         disabled={
-                            downloadDisabled || !onDownload
+                            downloadDisabled ||
+                            !onDownload
                         }
                         aria-label={downloadLabel}
                         title={downloadLabel}
@@ -89,18 +123,31 @@ export function DataTableToolbar({
                     </Button>
                 )}
 
-                {showFilter && (
+                {hasFilters && (
+                    <FilterDropdown
+                        filters={filters}
+                        values={filterValues}
+                        onChange={onFilterChange}
+                        onReset={onResetFilters}
+                    />
+                )}
+
+                {showRefresh && (
                     <Button
                         variant="default"
-                        onClick={onFilter}
+                        onClick={onRefresh}
+                        size="icon-lg"
                         disabled={
-                            filterDisabled || !onFilter
+                            refreshing ||
+                            !onRefresh
                         }
-                        aria-label={filterLabel}
-                        title={filterLabel}
-                        className="h-10 w-10"
+                        aria-label={downloadLabel}
+                        title={downloadLabel}
+                        className={`h-10 w-10`}
                     >
-                        <Filter size={18} />
+                        <span className={`${refreshing ? "animate-spin" : ""}`}>
+                            <RefreshCw size={18} color="#2563EB" />
+                        </span>
                     </Button>
                 )}
             </div>

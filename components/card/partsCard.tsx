@@ -2,7 +2,7 @@ import { Part } from "@/types/parts";
 import Image from "next/image";
 import React from "react";
 import { Badge } from "../ui/badge";
-import { MoreVertical } from "lucide-react";
+import { CheckCheck, X } from "lucide-react";
 
 type PartsCardProps = {
   part: Part;
@@ -49,7 +49,7 @@ function PartsCard({ part, onClick }: PartsCardProps) {
         </p>
 
         <div className="flex items-start justify-between gap-3 mb-3">
-          <h3 className="line-clamp-2 text-sm font-semibold text-primary">
+          <h3 className="line-clamp-2 text-sm font-semibold ">
             {part?.title
               ? part.title.length > 15
                 ? `${part.title.slice(0, 15)}...`
@@ -63,8 +63,12 @@ function PartsCard({ part, onClick }: PartsCardProps) {
           <p className="text-sm font-medium text-gray-700">
             {technicianName}
           </p>
-          <span className="p-1 bg-slate-200 rounded-full">
-            <MoreVertical className="h-4 w-4" />
+          <span title="Approval status" className="p-1 rounded-full hover:bg-gray-300">
+            {part?.is_approved ? (
+              <CheckCheck className="h-4 w-4 text-green-500" />
+            ) : (
+              <X className="h-4 w-4 text-red-500" />
+            )}
           </span>
         </div>
       </div>

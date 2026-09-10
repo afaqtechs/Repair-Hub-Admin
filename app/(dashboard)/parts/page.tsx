@@ -8,21 +8,74 @@ import { partColumns } from './components/columns'
 import { Part } from '@/types/parts'
 import PartDetail from './components/partDetail'
 import { toast } from '@/components/ui/toast'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 function Parts() {
+    const router = useRouter();
+
+    const searchParams = useSearchParams();
+
+    const partId = searchParams.get("partId");
+
+    const [search, setSearch] = useState("");
 
     const {
         data: parts,
         isLoading: loadingPart,
+        refetch: refetchPart,
+        isRefetching: refetchingPart,
     } = useParts();
 
     const { updatePart } = usePartsMutations()
 
-    const [selectedPart, setSelectedPart] =
-        useState<Part | null>(null);
+    const filterParts = (parts: Part[], search: string): Part[] => {
+        const query = search.trim().toLowerCase();
+
+        return parts.filter((part) => {
+            if (!query) {
+                return true;
+            }
+
+            const searchableText = [
+                part.title,
+                String(part.price ?? ""),
+                `${part.technician?.first_name ?? ""} ${part.technician?.last_name ?? ""}`,
+                part.description,
+                part.category?.name,
+                part.platform?.name,
+            ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
+
+            return searchableText.includes(query);
+        });
+    };
+
+    const filteredParts = filterParts(parts?.data ?? [], search);
+
+    const selectedFromList = parts?.data?.find(
+        (part) => part.id === partId
+    );
+
+    const [selectedPart, setSelectedPart] = useState<Part | null>(
+        selectedFromList ?? null
+    );
 
     const handleSelect = (part: Part) => {
         setSelectedPart(part);
+    };
+
+    const handleTechnicianSelect = (technicianId: string) => {
+        router.push(`/users?technicianId=${technicianId}`);
+    };
+
+    const handlePlatformSelect = (platformId: string) => {
+        router.push(`/platforms?platformId=${platformId}`);
+    };
+
+    const handleCategorySelect = (categoryId: string) => {
+        router.push(`/categories?categoryId=${categoryId}`);
     };
 
     // Active / inactive
@@ -72,17 +125,27 @@ function Parts() {
 
                         <div className="space-y-4 rounded-lg bg-card p-6">
                             <DataTableToolbar
-                                searchPlaceholder="Search categories..."
+                                searchValue={search}
+                                onSearchChange={setSearch}
+                                searchPlaceholder="Search parts, technicians, categories..."
                                 className="w-full lg:w-1/2"
+                                showDownload={false}
+                                showRefresh={true}
+                                onRefresh={() => {
+                                    refetchPart();
+                                }}
+                                refreshing={refetchingPart}
                             />
 
                             <DataTable
                                 columns={partColumns(
                                     handleSelect,
                                     handleActiveChange,
-                                    // onView
+                                    handleTechnicianSelect,
+                                    handlePlatformSelect,
+                                    handleCategorySelect,
                                 )}
-                                data={parts?.data ?? []}
+                                data={filteredParts}
                                 isLoading={loadingPart}
                             />
                         </div>

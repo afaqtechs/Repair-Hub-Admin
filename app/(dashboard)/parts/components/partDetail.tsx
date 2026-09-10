@@ -11,6 +11,7 @@ import {
     UserRound,
 } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 interface PartDetailProps {
@@ -19,6 +20,8 @@ interface PartDetailProps {
 }
 
 function PartDetail({ part, onBack }: PartDetailProps) {
+    const router = useRouter();
+
     const images = Array.isArray(part.images)
         ? part.images.filter(Boolean)
         : [];
@@ -69,7 +72,7 @@ function PartDetail({ part, onBack }: PartDetailProps) {
             {/* Main content */}
             <div className="grid gap-6 grid-cols-1 lg:grid-cols-5">
                 {/* Left */}
-                <div className="space-y-6 col-span-2">
+                <div className="space-y-3 col-span-2">
                     {/* Images */}
                     <div className="rounded-2xl bg-card p-3">
                         <div className="relative overflow-hidden rounded-xl">
@@ -80,7 +83,7 @@ function PartDetail({ part, onBack }: PartDetailProps) {
                                         alt="Part image"
                                         width={105}
                                         height={105}
-                                        className="h-50 w-full object-cover"
+                                        className="h-80 w-full object-fit"
                                     />
 
                                     {/* Image counter */}
@@ -173,7 +176,7 @@ function PartDetail({ part, onBack }: PartDetailProps) {
                 </div>
 
                 {/* Right */}
-                <div className="space-y-6 col-span-3">
+                <div className="space-y-3 col-span-3">
                     {/* Main information */}
                     <div className="rounded-2xl bg-card p-6">
                         <div className="flex flex-wrap items-start justify-between gap-3">
@@ -274,7 +277,7 @@ function PartDetail({ part, onBack }: PartDetailProps) {
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-3">
+                        <button onClick={() => router.push(`/users?technicianId=${part.technician?.id}`)} className="group cursor-pointer flex items-center gap-3">
                             <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100">
                                 {part.technician?.profile_image_url ? (
                                     <Image
@@ -288,12 +291,12 @@ function PartDetail({ part, onBack }: PartDetailProps) {
                                         className="h-full w-full object-cover"
                                     />
                                 ) : (
-                                    <UserRound className="h-5 w-5 text-gray-400" />
+                                    <UserRound className="h-5 w-5 text-green-400" />
                                 )}
                             </div>
 
                             <div className="min-w-0">
-                                <p className="truncate text-sm font-semibold text-gray-900">
+                                <p className="group-hover:text-green-500 truncate text-sm font-semibold text-gray-900">
                                     {[
                                         part.technician?.first_name,
                                         part.technician?.last_name,
@@ -303,7 +306,7 @@ function PartDetail({ part, onBack }: PartDetailProps) {
                                 </p>
 
                                 {part.technician?.city && (
-                                    <div className="mt-1 flex items-center gap-1 text-xs text-gray-500">
+                                    <div className="group-hover:text-green-500 mt-1 flex items-center gap-1 text-xs text-gray-500">
                                         <MapPin className="h-3.5 w-3.5" />
                                         <span>
                                             {part.technician.city}
@@ -311,7 +314,7 @@ function PartDetail({ part, onBack }: PartDetailProps) {
                                     </div>
                                 )}
                             </div>
-                        </div>
+                        </button>
                     </div>
 
                     {/* Verification */}
@@ -336,7 +339,7 @@ function PartDetail({ part, onBack }: PartDetailProps) {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

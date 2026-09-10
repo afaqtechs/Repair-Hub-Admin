@@ -15,10 +15,13 @@ import { Platform } from "@/types/platform";
 import PlatformDetail from "./components/platformDetail";
 import { platformColumns } from "./components/columns";
 import AddPlatform from "./components/addPlatform";
+import { useSearchParams } from "next/navigation";
 
 function Platforms() {
-    // platform selected from the table
-    const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(null);
+    const searchParams = useSearchParams();
+
+    const platformId = searchParams.get("platformId");
+
     const [showDetail, setShowDetail] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
 
@@ -30,6 +33,12 @@ function Platforms() {
         data: platforms = [],
         isLoading: loadingPlatform,
     } = usePlatforms();
+
+    const selectedFromList = platforms?.find(
+        (platform) => platform.id === platformId
+    );
+
+    const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(selectedFromList || null);
 
     const {
         data: parts,
@@ -122,10 +131,6 @@ function Platforms() {
                 description="Manage RepairHub repair categories."
                 action={
                     <div className="flex items-center gap-2">
-                        <Button variant="primary">
-                            Export
-                        </Button>
-
                         <Button
                             variant="primary"
                             onClick={() =>

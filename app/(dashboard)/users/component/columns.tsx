@@ -1,7 +1,7 @@
 "use client";
 
 import { createColumnHelper } from "@tanstack/react-table";
-import { Eye } from "lucide-react";
+import { ArrowUpDown, Eye } from "lucide-react";
 import Image from "next/image";
 
 import { type DataTableFeatures } from "@/components/ui/data-table-features";
@@ -52,7 +52,20 @@ export const userColumns = (
 ) =>
     columnHelper.columns([
         columnHelper.accessor("first_name", {
-            header: "User",
+            header: ({ column }) => (
+                <button
+                    type="button"
+                    onClick={() =>
+                        column.toggleSorting(
+                            column.getIsSorted() === "asc"
+                        )
+                    }
+                    className="flex items-center gap-1 text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-gray-700"
+                >
+                    Users
+                    <ArrowUpDown className="h-3 w-3" />
+                </button>
+            ),
 
             cell: ({ row }) => {
                 const user = row.original;

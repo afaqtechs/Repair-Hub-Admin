@@ -53,7 +53,7 @@ export const categoryColumns = (
                     onClick={() =>
                         onView(row.original)
                     }
-                    className="group cursor-pointe flex items-center gap-3">
+                    className="group cursor-pointer flex items-center gap-3">
                     {category.icon_url ? (
                         <Image
                             src={category.icon_url}

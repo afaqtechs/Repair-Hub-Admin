@@ -5,7 +5,7 @@ import { type DataTableFeatures } from "@/components/ui/data-table-features";
 import Image from 'next/image';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { Eye } from 'lucide-react';
+import { ArrowUpDown, Eye } from 'lucide-react';
 
 const columnHelper =
     createColumnHelper<DataTableFeatures, Service>();
@@ -15,10 +15,26 @@ export const serviceColumns = (
         service: Service,
         checked: boolean
     ) => void,
+    onTechnicianSelect: (technicianId: string) => void,
+    onPlatformSelect: (platformId: string) => void,
+    onCategorySelect: (categoryId: string) => void,
 ) =>
     columnHelper.columns([
         columnHelper.accessor("title", {
-            header: "Title",
+            header: ({ column }) => (
+                <button
+                    type="button"
+                    onClick={() =>
+                        column.toggleSorting(
+                            column.getIsSorted() === "asc"
+                        )
+                    }
+                    className="flex items-center gap-1 text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-gray-700"
+                >
+                    Title
+                    <ArrowUpDown className="h-3 w-3" />
+                </button>
+            ),
 
             cell: ({ row }) => {
                 const service = row.original;
@@ -78,37 +94,146 @@ export const serviceColumns = (
         }),
 
         columnHelper.accessor("technician_id", {
-            header: "Technician",
-
-            cell: ({ row }) => (
-                <span className="text-sm text-gray-600">
-                    {row.original.technician?.first_name || "—"} {row.original.technician?.last_name || "—"}
-                </span>
+            header: ({ column }) => (
+                <button
+                    type="button"
+                    onClick={() =>
+                        column.toggleSorting(
+                            column.getIsSorted() === "asc"
+                        )
+                    }
+                    className="flex items-center gap-1 text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-gray-700"
+                >
+                    Technician
+                    <ArrowUpDown className="h-3 w-3" />
+                </button>
             ),
+
+            cell: ({ row }) => {
+                const service = row.original;
+                const technician = service.technician;
+
+                if (!technician) {
+                    return (
+                        <span className="text-sm text-gray-400">
+                            —
+                        </span>
+                    );
+                }
+
+                return (
+                    <button
+                        type="button"
+                        onClick={() =>
+                            onTechnicianSelect(service.technician_id)
+                        }
+                        className="cursor-pointer text-sm text-gray-600 hover:text-green-500 hover:underline"
+                    >
+                        {technician.first_name} {technician.last_name}
+                    </button>
+                );
+            },
         }),
 
         columnHelper.accessor("platform_id", {
-            header: "Platform",
-
-            cell: ({ row }) => (
-                <span className="text-sm text-gray-600">
-                    {row.original.platform?.name || "—"}
-                </span>
+            header: ({ column }) => (
+                <button
+                    type="button"
+                    onClick={() =>
+                        column.toggleSorting(
+                            column.getIsSorted() === "asc"
+                        )
+                    }
+                    className="flex items-center gap-1 text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-gray-700"
+                >
+                    Platform
+                    <ArrowUpDown className="h-3 w-3" />
+                </button>
             ),
+
+            cell: ({ row }) => {
+                const service = row.original;
+                const platform = service.platform;
+
+                if (!platform) {
+                    return (
+                        <span className="text-sm text-gray-400">
+                            —
+                        </span>
+                    );
+                }
+
+                return (
+                    <button
+                        type="button"
+                        onClick={() =>
+                            onPlatformSelect(String(service.platform_id))
+                        }
+                        className="cursor-pointer text-sm text-gray-600 hover:text-green-500 hover:underline"
+                    >
+                        {platform.name}
+                    </button>
+                );
+            },
         }),
 
         columnHelper.accessor("category_id", {
-            header: "Category",
-
-            cell: ({ row }) => (
-                <span className="text-sm text-gray-600">
-                    {row.original.category?.name || "—"}
-                </span>
+            header: ({ column }) => (
+                <button
+                    type="button"
+                    onClick={() =>
+                        column.toggleSorting(
+                            column.getIsSorted() === "asc"
+                        )
+                    }
+                    className="flex items-center gap-1 text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-gray-700"
+                >
+                    Category
+                    <ArrowUpDown className="h-3 w-3" />
+                </button>
             ),
+
+            cell: ({ row }) => {
+                const service = row.original;
+                const category = service.category;
+
+                if (!category) {
+                    return (
+                        <span className="text-sm text-gray-400">
+                            —
+                        </span>
+                    );
+                }
+
+                return (
+                    <button
+                        type="button"
+                        onClick={() =>
+                            onCategorySelect(String(service.category_id))
+                        }
+                        className="cursor-pointer text-sm text-gray-600 hover:text-green-500 hover:underline"
+                    >
+                        {category.name}
+                    </button>
+                );
+            },
         }),
 
         columnHelper.accessor("price", {
-            header: "Price",
+            header: ({ column }) => (
+                <button
+                    type="button"
+                    onClick={() =>
+                        column.toggleSorting(
+                            column.getIsSorted() === "asc"
+                        )
+                    }
+                    className="flex items-center gap-1 text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-gray-700"
+                >
+                    Price
+                    <ArrowUpDown className="h-3 w-3" />
+                </button>
+            ),
 
             cell: ({ row }) => (
                 <span className="text-sm text-gray-600">
@@ -118,7 +243,20 @@ export const serviceColumns = (
         }),
 
         columnHelper.accessor("is_approved", {
-            header: "Approval",
+            header: ({ column }) => (
+                <button
+                    type="button"
+                    onClick={() =>
+                        column.toggleSorting(
+                            column.getIsSorted() === "asc"
+                        )
+                    }
+                    className="flex items-center gap-1 text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-gray-700"
+                >
+                    Approval
+                    <ArrowUpDown className="h-3 w-3" />
+                </button>
+            ),
 
             cell: ({ row }) => {
                 const service = row.original;

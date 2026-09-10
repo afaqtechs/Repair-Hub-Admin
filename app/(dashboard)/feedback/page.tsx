@@ -229,52 +229,61 @@ function TechnicianFeedbacks() {
                     }
                 }}
                 title="Feedback Details"
-                description="Complete details of the selected feedback."
+                description="Review the feedback submitted by the technician."
                 showConfirm={false}
-            >
-                {selectedFeedback && (
-                    <div className="space-y-5">
-                        {/* Technician */}
-                        <div>
-                            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                                Technician
-                            </p>
 
-                            <p className="mt-1 text-sm font-medium text-gray-900">
+            >
+
+                {selectedFeedback && (
+                    <div className="space-y-6">
+                        {/* Technician */}
+                        <div className="flex items-center gap-3 rounded-xl bg-gray-50/70 p-4">
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-100 text-sm font-semibold text-green-600">
                                 {[
-                                    selectedFeedback
-                                        .technician
-                                        ?.first_name,
-                                    selectedFeedback
-                                        .technician
-                                        ?.last_name,
+                                    selectedFeedback.technician?.first_name,
+                                    selectedFeedback.technician?.last_name,
                                 ]
                                     .filter(Boolean)
-                                    .join(" ") ||
-                                    "Unknown technician"}
-                            </p>
+                                    .map((name) => name?.[0])
+                                    .join("")
+                                    .slice(0, 2)
+                                    .toUpperCase() || "U"}
+                            </div>
+
+                            <div className="min-w-0">
+                                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                    Technician
+                                </p>
+
+                                <p className="mt-0.5 truncate text-sm font-semibold text-gray-900">
+                                    {[
+                                        selectedFeedback.technician?.first_name,
+                                        selectedFeedback.technician?.last_name,
+                                    ]
+                                        .filter(Boolean)
+                                        .join(" ") || "Unknown technician"}
+                                </p>
+                            </div>
                         </div>
 
-
+                        {/* Subject */}
                         <div>
-                            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                                 Subject
                             </p>
 
-                            <span className="text-lg font-medium">
-                                {
-                                    selectedFeedback.subject
-                                }
-                            </span>
+                            <h3 className="mt-1.5 text-base font-semibold leading-6 text-gray-900">
+                                {selectedFeedback.subject || "No subject"}
+                            </h3>
                         </div>
 
                         {/* Feedback */}
                         <div>
-                            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                                 Feedback
                             </p>
 
-                            <div className="mt-2 rounded-lg bg-muted/50 bg-gray-50 p-4">
+                            <div className="mt-2 rounded-xl border border-gray-200 bg-gray-50 p-4">
                                 <p className="whitespace-pre-wrap text-sm leading-6 text-gray-700">
                                     {selectedFeedback.message ||
                                         "No feedback provided."}
@@ -282,23 +291,27 @@ function TechnicianFeedbacks() {
                             </div>
                         </div>
 
-                        {/* Date */}
-                        <div>
-                            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                                Submitted
-                            </p>
+                        {/* Submitted */}
+                        <div className="border-t border-gray-300 pt-4">
+                            <div className="flex items-center justify-between">
+                                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                                    Submitted
+                                </p>
 
-                            <p className="mt-1 text-sm text-gray-600">
-                                {selectedFeedback.created_at
-                                    ? new Date(
-                                        selectedFeedback.created_at
-                                    ).toLocaleString()
-                                    : "—"}
-                            </p>
+                                <p className="text-sm font-medium text-gray-700">
+                                    {selectedFeedback.created_at
+                                        ? new Date(
+                                            selectedFeedback.created_at
+                                        ).toLocaleString()
+                                        : "—"}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 )}
+
             </CommonDialog>
+
 
             {/* ─────────────────────────────────────── */}
             {/* Delete modal */}

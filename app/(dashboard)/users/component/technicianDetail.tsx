@@ -15,6 +15,7 @@ import { Spinner } from "@/components/ui/loader";
 import { Button } from "@/components/ui/button";
 import DocumentViewerModal from "@/components/card/DocumentViewerModal";
 import { supabase } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 type TechnicianDetailProps = {
     technician: Profile;
@@ -38,6 +39,8 @@ function TechnicianDetail({
     const [documentOpen, setDocumentOpen] = useState(false);
     const [documentUrl, setDocumentUrl] = useState<string | null>(null);
     const [documentLoading, setDocumentLoading] = useState(false);
+
+    const router = useRouter();
 
     const handleViewDocument = async () => {
         if (!technician.legal_document_url) return;
@@ -353,97 +356,109 @@ function TechnicianDetail({
 
                     </div>
 
-                    <div className="rounded-lg bg-card p-3 lg:p-6">
-                        {/* Tabs */}
-                        <div className="flex w-full items-center justify-between gap-6 border-b border-gray-200">
-                            {tabs.map((tab) => (
-                                <button
-                                    key={tab.key}
-                                    type="button"
-                                    onClick={() => setActiveTab(tab.key)}
-                                    className={`w-full relative flex cursor-pointer items-center justify-center px-1 py-3 text-sm font-medium transition-colors ${activeTab === tab.key
-                                        ? "text-[#3fc92f]"
-                                        : "text-gray-500 hover:text-gray-900"
-                                        }`}
-                                >
-                                    {tab.label}
+                    {technician?.role === "technician" && (
 
-                                    {activeTab === tab.key && (
-                                        <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-[#42f54b]" />
-                                    )}
-                                </button>
-                            ))}
+                        <div className="rounded-lg bg-card p-3 lg:p-6">
+                            {/* Tabs */}
+                            <div className="flex w-full items-center justify-between gap-6 border-b border-gray-200">
+                                {tabs.map((tab) => (
+                                    <button
+                                        key={tab.key}
+                                        type="button"
+                                        onClick={() => setActiveTab(tab.key)}
+                                        className={`w-full relative flex cursor-pointer items-center justify-center px-1 py-3 text-sm font-medium transition-colors ${activeTab === tab.key
+                                            ? "text-[#3fc92f]"
+                                            : "text-gray-500 hover:text-gray-900"
+                                            }`}
+                                    >
+                                        {tab.label}
+
+                                        {activeTab === tab.key && (
+                                            <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-[#42f54b]" />
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Tab content */}
+                            <div className="mt-5">
+                                {/* Parts */}
+                                {activeTab === "parts" && (
+                                    <>
+                                        {!parts || parts.length === 0 ? (
+                                            <div className="flex min-h-40 items-center justify-center rounded-lg bg-gray-50">
+                                                <p className="text-sm text-gray-500">
+                                                    No parts found in this category.
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+                                                {parts.map((part) => (
+                                                    <PartsCard
+                                                        key={part.id}
+                                                        part={part}
+                                                        onClick={() =>
+                                                            router.push(`/parts?partId=${part.id}`)
+                                                        }
+                                                    />
+                                                ))}
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+
+                                {/* Services */}
+                                {activeTab === "services" && (
+                                    <>
+                                        {!services || services.length === 0 ? (
+                                            <div className="flex min-h-40 items-center justify-center rounded-lg bg-gray-50">
+                                                <p className="text-sm text-gray-500">
+                                                    No services found in this category.
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+                                                {services.map((service) => (
+                                                    <ServiceCard
+                                                        key={service.id}
+                                                        service={service}
+                                                        onClick={() =>
+                                                            router.push(`/services?serviceId=${service.id}`)
+                                                        }
+                                                    />
+                                                ))}
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+
+                                {/* Requests */}
+                                {activeTab === "requests" && (
+                                    <>
+                                        {!requests || requests.length === 0 ? (
+                                            <div className="flex min-h-40 items-center justify-center rounded-lg bg-gray-50">
+                                                <p className="text-sm text-gray-500">
+                                                    No requests found in this category.
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+                                                {requests.map((request) => (
+                                                    <RequestCard
+                                                        key={request.id}
+                                                        request={request}
+                                                        onClick={() =>
+                                                            router.push(`/requests?requestId=${request.id}`)
+                                                        }
+                                                    />
+                                                ))}
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+                            </div>
                         </div>
-
-                        {/* Tab content */}
-                        <div className="mt-5">
-                            {/* Parts */}
-                            {activeTab === "parts" && (
-                                <>
-                                    {!parts || parts.length === 0 ? (
-                                        <div className="flex min-h-40 items-center justify-center rounded-lg bg-gray-50">
-                                            <p className="text-sm text-gray-500">
-                                                No parts found in this category.
-                                            </p>
-                                        </div>
-                                    ) : (
-                                        <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-                                            {parts.map((part) => (
-                                                <PartsCard
-                                                    key={part.id}
-                                                    part={part}
-                                                />
-                                            ))}
-                                        </div>
-                                    )}
-                                </>
-                            )}
-
-                            {/* Services */}
-                            {activeTab === "services" && (
-                                <>
-                                    {!services || services.length === 0 ? (
-                                        <div className="flex min-h-40 items-center justify-center rounded-lg bg-gray-50">
-                                            <p className="text-sm text-gray-500">
-                                                No services found in this category.
-                                            </p>
-                                        </div>
-                                    ) : (
-                                        <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-                                            {services.map((service) => (
-                                                <ServiceCard
-                                                    key={service.id}
-                                                    service={service}
-                                                />
-                                            ))}
-                                        </div>
-                                    )}
-                                </>
-                            )}
-
-                            {/* Requests */}
-                            {activeTab === "requests" && (
-                                <>
-                                    {!requests || requests.length === 0 ? (
-                                        <div className="flex min-h-40 items-center justify-center rounded-lg bg-gray-50">
-                                            <p className="text-sm text-gray-500">
-                                                No requests found in this category.
-                                            </p>
-                                        </div>
-                                    ) : (
-                                        <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-                                            {requests.map((request) => (
-                                                <RequestCard
-                                                    key={request.id}
-                                                    request={request}
-                                                />
-                                            ))}
-                                        </div>
-                                    )}
-                                </>
-                            )}
-                        </div>
-                    </div>
+                    )}
                 </>
             )}
 

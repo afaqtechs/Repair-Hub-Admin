@@ -11,6 +11,7 @@ import {
     UserRound,
 } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 interface ServiceDetailProps {
@@ -19,6 +20,8 @@ interface ServiceDetailProps {
 }
 
 function ServiceDetail({ service, onBack }: ServiceDetailProps) {
+    const router = useRouter();
+
     const images = Array.isArray(service.images)
         ? service.images.filter(Boolean)
         : [];
@@ -69,7 +72,7 @@ function ServiceDetail({ service, onBack }: ServiceDetailProps) {
             {/* Main content */}
             <div className="grid gap-6 grid-cols-1 lg:grid-cols-5">
                 {/* Left */}
-                <div className="space-y-6 col-span-2">
+                <div className="space-y-3 col-span-2">
                     {/* Images */}
                     <div className="rounded-2xl bg-card p-3">
                         <div className="relative overflow-hidden rounded-xl">
@@ -173,13 +176,13 @@ function ServiceDetail({ service, onBack }: ServiceDetailProps) {
                 </div>
 
                 {/* Right */}
-                <div className="space-y-6 col-span-3">
+                <div className="space-y-3 col-span-3">
                     {/* Main information */}
                     <div className="rounded-2xl bg-card p-6">
                         <div className="flex flex-wrap items-start justify-between gap-3">
                             <div>
                                 <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400">
-                                     service
+                                    service
                                 </p>
 
                                 <h2 className="text-xl font-semibold text-gray-900">
@@ -269,7 +272,7 @@ function ServiceDetail({ service, onBack }: ServiceDetailProps) {
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-3">
+                        <button onClick={() => router.push(`/users?technicianId=${service.technician?.id}`)} className="group cursor-pointer flex items-center gap-3">
                             <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100">
                                 {service.technician?.profile_image_url ? (
                                     <Image
@@ -288,7 +291,7 @@ function ServiceDetail({ service, onBack }: ServiceDetailProps) {
                             </div>
 
                             <div className="min-w-0">
-                                <p className="truncate text-sm font-semibold text-gray-900">
+                                <p className="group-hover:text-green-500 truncate text-sm font-semibold text-gray-900">
                                     {[
                                         service.technician?.first_name,
                                         service.technician?.last_name,
@@ -298,7 +301,7 @@ function ServiceDetail({ service, onBack }: ServiceDetailProps) {
                                 </p>
 
                                 {service.technician?.city && (
-                                    <div className="mt-1 flex items-center gap-1 text-xs text-gray-500">
+                                    <div className="group-hover:text-green-500 mt-1 flex items-center gap-1 text-xs text-gray-500">
                                         <MapPin className="h-3.5 w-3.5" />
                                         <span>
                                             {service.technician.city}
@@ -306,7 +309,7 @@ function ServiceDetail({ service, onBack }: ServiceDetailProps) {
                                     </div>
                                 )}
                             </div>
-                        </div>
+                        </button>
                     </div>
 
                     {/* Verification */}

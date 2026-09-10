@@ -13,6 +13,7 @@ import PartsCard from "@/components/card/partsCard";
 import ServiceCard from "@/components/card/ServiceCard";
 import RequestCard from "@/components/card/RequestCard";
 import { Platform } from "@/types/platform";
+import { useRouter } from "next/navigation";
 
 type platformDetailProps = {
     platform: Platform;
@@ -29,8 +30,9 @@ function PlatformDetail({
     requests,
     onBack,
 }: platformDetailProps) {
-    const [activeTab, setActiveTab] = useState("parts");
+    const router = useRouter();
 
+    const [activeTab, setActiveTab] = useState("parts");
     const tabs = [
         {
             label: "Parts",
@@ -146,6 +148,9 @@ function PlatformDetail({
                                             <PartsCard
                                                 key={part.id}
                                                 part={part}
+                                                onClick={() =>
+                                                    router.push(`/parts?partId=${part.id}`)
+                                                }
                                             />
                                         ))}
                                     </div>
@@ -168,6 +173,9 @@ function PlatformDetail({
                                             <ServiceCard
                                                 key={service.id}
                                                 service={service}
+                                                onClick={() =>
+                                                    router.push(`/services?serviceId=${service.id}`)
+                                                }
                                             />
                                         ))}
                                     </div>
@@ -190,6 +198,9 @@ function PlatformDetail({
                                             <RequestCard
                                                 key={request.id}
                                                 request={request}
+                                                onClick={() =>
+                                                    router.push(`/requests?requestId=${request.id}`)
+                                                }
                                             />
                                         ))}
                                     </div>

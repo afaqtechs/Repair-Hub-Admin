@@ -2,7 +2,7 @@ import { Service } from "@/types/services";
 import Image from "next/image";
 import React from "react";
 import { Badge } from "../ui/badge";
-import { MoreVertical } from "lucide-react";
+import { CheckCheck, X } from "lucide-react";
 
 type ServiceCardProps = {
     service: Service;
@@ -69,8 +69,12 @@ function ServiceCard({ service, onClick }: ServiceCardProps) {
                         {technicianName}
                     </p>
 
-                    <span className="rounded-full bg-slate-200 p-1">
-                        <MoreVertical className="h-4 w-4" />
+                    <span title="Approval status" className="p-1 rounded-full hover:bg-gray-300">
+                        {service?.is_approved ? (
+                            <CheckCheck className="h-4 w-4 text-green-500" />
+                        ) : (
+                            <X className="h-4 w-4 text-red-500" />
+                        )}
                     </span>
                 </div>
             </div>
