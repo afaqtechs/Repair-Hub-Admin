@@ -102,7 +102,7 @@ export default function DashboardPage() {
                 </h1>
 
                 <p className="mt-1 text-sm text-gray-600">
-                    Welcome to the RepairHub admin dashboard.
+                    Welcome to the addis aepairs admin dashboard.
                 </p>
             </div>
 

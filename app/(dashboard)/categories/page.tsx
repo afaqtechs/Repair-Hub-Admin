@@ -130,7 +130,7 @@ function Categories() {
             {/* Header */}
             <PageHeader
                 title="Categories"
-                description="Manage RepairHub repair categories."
+                description="Manage Addis Repairs repair categories."
                 action={
                     <div className="flex items-center gap-2">
                         <Button

@@ -31,6 +31,8 @@ interface CommonDialogProps {
     showCancel?: boolean;
     showConfirm?: boolean;
 
+    className?: string;
+
     confirmVariant?:
     | "primary"
     | "destructive"
@@ -59,6 +61,8 @@ export function CommonDialog({
     showCancel = true,
     showConfirm = true,
 
+    className = "",
+
     confirmVariant = "primary",
 }: CommonDialogProps) {
     const handleCancel = () => {
@@ -71,7 +75,7 @@ export function CommonDialog({
             open={open}
             onOpenChange={onOpenChange}
         >
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className={`sm:max-w-md max-h-125 overflow-y-auto ${className}`}>
                 <DialogHeader>
                     <DialogTitle>
                         {title}

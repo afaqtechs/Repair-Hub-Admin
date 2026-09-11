@@ -139,7 +139,7 @@ export function DataTable<
                                     className="h-24 text-center"
                                 >
                                     <Spinner
-                                        variant="primary"
+                                        variant="success"
                                         size="default"
                                         fullScreen
                                         text="Loading..."

@@ -69,7 +69,7 @@ function AddPlatform({
             showModal={showModal}
             setShowModal={handleClose}
             title="Add Platform"
-            description="Create a new repair platform for RepairHub."
+            description="Create a new repair platform for addis repairs."
         >
             <form
                 onSubmit={handleSubmit}

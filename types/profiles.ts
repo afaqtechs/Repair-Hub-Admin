@@ -79,6 +79,7 @@ export type ProfileDto = Partial<{
   first_name: string | null;
   last_name: string | null;
   phone: string | null;
+  email:string | null;
 
   bio: string | null;
   experience_years: number | null;

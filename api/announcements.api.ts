@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase/client';
-import { ProfileDto, Profile } from '@/types/profiles';
+import { Announcement } from '@/types/announcement';
 
 // ─────────────────────────────────────────────
 // API error helper
@@ -8,78 +8,98 @@ import { ProfileDto, Profile } from '@/types/profiles';
 const logApiError = (method: string, error: unknown) => {
   const message = error instanceof Error ? error.message : String(error);
 
-  console.log(`[profileApi.${method}]`, message);
+  console.log(`[announcementsApi.${method}]`, message);
 };
 
 // ─────────────────────────────────────────────
-// Profile API
+// announcements API
 // ─────────────────────────────────────────────
 
-export const profileApi = {
+export const announcementsApi = {
   // ─────────────────────────────────────────────
-  // Get technicians
+  // Get all announcements
   // ─────────────────────────────────────────────
 
-  async getTechnicians(): Promise<Profile[]> {
+  async getAll(): Promise<Announcement[]> {
     try {
       const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .order('first_name', {
-          ascending: true,
-        });
+        .from("announcements")
+        .select("*")
+        .order("created_at", { ascending: false });
 
       if (error) {
-        logApiError('getTechnicians', error);
-
+        logApiError('getAll', error);
         return [];
       }
 
-      return (data as Profile[]) || [];
+      return data || [];
     } catch (error) {
-      logApiError('getTechnicians', error);
-
+      logApiError('getAll', error);
       return [];
     }
   },
 
   // ─────────────────────────────────────────────
-  // Get single technician
+  // Get single announcement
   // ─────────────────────────────────────────────
 
-  async getTechnician(id: string): Promise<Profile | null> {
+  async getSingle(id: string): Promise<Announcement | null> {
     try {
       const { data, error } = await supabase
-        .from('profiles')
+        .from('announcements')
         .select('*')
         .eq('id', id)
         .maybeSingle();
 
       if (error) {
-        logApiError('getTechnician', error);
-
+        logApiError('getSingle', error);
         return null;
       }
 
-      return data as Profile | null;
+      return data as Announcement | null;
     } catch (error) {
-      logApiError('getTechnician', error);
-
+      logApiError('getSingle', error);
       return null;
     }
   },
 
   // ─────────────────────────────────────────────
-  // Update profile
+  // Create announcement
+  // ─────────────────────────────────────────────
+
+  async create(
+    payload: Pick<Announcement, 'subject' | 'message'>
+  ): Promise<Announcement | null> {
+    try {
+      const { data, error } = await supabase
+        .from('announcements')
+        .insert(payload)
+        .select()
+        .single();
+
+      if (error) {
+        logApiError('create', error);
+        return null;
+      }
+
+      return data;
+    } catch (error) {
+      logApiError('create', error);
+      return null;
+    }
+  },
+
+  // ─────────────────────────────────────────────
+  // Update announcement
   // ─────────────────────────────────────────────
 
   async update(
     id: string,
-    payload: Partial<ProfileDto>
-  ): Promise<Profile | null> {
+    payload: Partial<Announcement>
+  ): Promise<Announcement | null> {
     try {
       const { data, error } = await supabase
-        .from('profiles')
+        .from('announcements')
         .update(payload)
         .eq('id', id)
         .select()
@@ -90,11 +110,30 @@ export const profileApi = {
         return null;
       }
 
-      return data as Profile;
+      return data;
     } catch (error) {
       logApiError('update', error);
       return null;
     }
   },
 
+  // ─────────────────────────────────────────────
+  // Remove announcement
+  // ─────────────────────────────────────────────
+
+  async remove(id: string): Promise<boolean> {
+    try {
+      const { error } = await supabase.from('announcements').delete().eq('id', id);
+
+      if (error) {
+        logApiError('remove', error);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      logApiError('remove', error);
+      return false;
+    }
+  },
 };

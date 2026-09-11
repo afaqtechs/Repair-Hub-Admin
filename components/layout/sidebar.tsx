@@ -11,11 +11,11 @@ import {
     LayoutDashboard,
     Users,
     Package,
-    Settings,
     Tags,
     ClipboardList,
     Cog,
-    FileQuestionMarkIcon
+    FileQuestionMarkIcon,
+    SpeakerIcon,
 } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
@@ -56,7 +56,7 @@ const menus: MenuItem[] = [
         ],
     },
     { title: "Feedback", path: "/feedback", icon: FileQuestionMarkIcon },
-    { title: "Settings", path: "/settings", icon: Settings },
+    { title: "Announcement", path: "/announcements", icon: SpeakerIcon },
 ];
 
 export function Sidebar({ isOpen, setIsOpen, collapsed, setCollapsed, user }: SidebarProps) {
@@ -107,7 +107,7 @@ export function Sidebar({ isOpen, setIsOpen, collapsed, setCollapsed, user }: Si
                                 <div className="relative z-10 overflow-hidden">
                                     <Image
                                         src={logo}
-                                        alt="RepairHub"
+                                        alt="Addis repairs"
                                         className="h-12 w-12 object-contain rounded-full object-left"
                                         priority
                                     />
@@ -205,7 +205,7 @@ export function Sidebar({ isOpen, setIsOpen, collapsed, setCollapsed, user }: Si
                 <div className="border-t border-gray-800 p-4">
                     <div className={`flex items-center text-gray-500 ${collapsed ? "justify-center" : "justify-center"}`}>
                         <span className="text-base">©</span>
-                        {!collapsed && <span className="ml-2 text-xs">{new Date().getFullYear()} RepairHub</span>}
+                        {!collapsed && <span className="ml-2 text-xs">{new Date().getFullYear()} Addis Repairs</span>}
                     </div>
                 </div>
             </aside>

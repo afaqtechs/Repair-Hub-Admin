@@ -104,7 +104,7 @@ function AddCategory({
             showModal={showModal}
             setShowModal={handleClose}
             title="Add Category"
-            description="Create a new repair category for RepairHub."
+            description="Create a new repair category for addis repairs."
         >
             <form
                 onSubmit={handleSubmit}

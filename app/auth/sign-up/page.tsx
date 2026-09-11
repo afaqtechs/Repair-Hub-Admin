@@ -83,7 +83,7 @@ export default function SignUp() {
                 <div className="mb-10 relative z-10">
                     <Image
                         src={logo}
-                        alt="RepairHub"
+                        alt="Addis repairs"
                         width={220}
                         height={70}
                         className="h-auto w-48 object-contain object-left"
@@ -94,7 +94,7 @@ export default function SignUp() {
                 <div className="relative z-10 text-end px-10">
                     <h1 className="max-w-lg text-4xl font-bold tracking-tight text-gray-100 xl:text-5xl font-serif">
                         Join{" "}
-                        <span className="text-emerald-500">RepairHub.</span>
+                        <span className="text-emerald-500">Addis Repairs.</span>
                     </h1>
 
                     <p className="mt-6 max-w-lg text-base leading-7 text-gray-400 font-light">
@@ -117,7 +117,7 @@ export default function SignUp() {
                         Create account
                     </h1>
                     <p className="text-base text-gray-400 font-light text-center">
-                        Get started with your RepairHub admin account.
+                        Get started with your Addis repairs admin account.
                     </p>
                 </div>
 
@@ -167,7 +167,7 @@ export default function SignUp() {
                         <Input
                             id="email"
                             type="email"
-                            placeholder="admin@repairhub.com"
+                            placeholder="admin@addisrepairs.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             disabled={loading || success}
