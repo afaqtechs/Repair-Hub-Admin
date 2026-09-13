@@ -30,34 +30,78 @@ function HomePage() {
     }
 
     return (
-        <main className="relative min-h-screen overflow-hidden bg-linear-to-br from-[#F8F7FC] via-white to-[#EAF6E2] flex items-center justify-center px-6">
+        <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#F8F7FC] via-white to-[#EAF6E2] flex items-center justify-center px-6">
             {/* Decorative blurred blobs */}
             <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#5EAE32]/20 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-[#5EAE32]/10 blur-3xl" />
 
+            {/* Subtle grid pattern */}
+            <div
+                className="pointer-events-none absolute inset-0 opacity-[0.03]"
+                style={{
+                    backgroundImage:
+                        "linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)",
+                    backgroundSize: "40px 40px",
+                }}
+            />
+
             <div className="relative w-full max-w-md text-center">
-                {/* Logo / Badge */}
-                <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#5EAE32] shadow-lg shadow-[#5EAE32]/30">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-7 w-7 text-white"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                    >
-                        <path
+                {/* ── Attractive Logo / Badge ─────────────────────────── */}
+                <div className="relative mx-auto mb-8 h-24 w-24">
+                    {/* Outer pulsing glow ring */}
+                    <span className="absolute inset-0 animate-ping rounded-[2rem] bg-[#5EAE32]/20" />
+
+                    {/* Soft blurred glow */}
+                    <span className="absolute -inset-3 rounded-[2.5rem] bg-[#5EAE32]/25 blur-2xl" />
+
+                    {/* Gradient border wrapper */}
+                    <div className="relative h-full w-full rounded-[2rem] bg-gradient-to-br from-[#79e636] via-[#5EAE32] to-[#3d7a1f] p-[2px] shadow-2xl shadow-[#5EAE32]/40">
+                        {/* Inner tile */}
+                        <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[calc(2rem-2px)] bg-gradient-to-br from-[#5EAE32] to-[#4d9a26]">
+                            {/* Sheen overlay */}
+                            <span className="absolute -top-1/2 left-0 h-full w-full -translate-x-full rotate-12 bg-gradient-to-r from-transparent via-white/25 to-transparent animate-[shine_3.5s_ease-in-out_infinite]" />
+
+                            {/* Icon */}
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="relative h-12 w-12 text-white drop-shadow-md"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={1.8}
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                {/* Wrench */}
+                                <path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 1 5.4-5.4l-2.6 2.6-1.4-1.4 2.6-2.6z" />
+                                {/* Sparkle accents */}
+                                <path d="M18 3v3M21 4.5l-2 2M16.5 2l1.5 1.5" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    {/* Floating mini badge */}
+                    <span className="absolute -right-1 -top-1 flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-lg ring-1 ring-black/5">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4 text-[#5EAE32]"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={3}
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            d="M11 5a3 3 0 100 6 3 3 0 000-6zM5 19a6 6 0 0112 0M19 8l-3 3m0 0l-3-3m3 3V3"
-                        />
-                    </svg>
+                        >
+                            <path d="M5 13l4 4L19 7" />
+                        </svg>
+                    </span>
                 </div>
+                {/* ─────────────────────────────────────────────────────── */}
 
                 <div className="mb-8">
                     <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
                         Welcome to{" "}
-                        <span className="bg-linear-to-r from-[#5EAE32] to-[#79e636] bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-[#5EAE32] to-[#79e636] bg-clip-text text-transparent">
                             Addis Repairs
                         </span>
                     </h1>
@@ -94,6 +138,19 @@ function HomePage() {
                     Trusted by repair shops across Addis Ababa
                 </p>
             </div>
+
+            {/* Keyframes for the shine sweep */}
+            <style jsx>{`
+                @keyframes shine {
+                    0% {
+                        transform: translateX(-100%) rotate(12deg);
+                    }
+                    50%,
+                    100% {
+                        transform: translateX(200%) rotate(12deg);
+                    }
+                }
+            `}</style>
         </main>
     );
 }

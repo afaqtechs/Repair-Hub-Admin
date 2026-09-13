@@ -53,7 +53,7 @@ function Profiles({
             showConfirm={true}
             onConfirm={handleConfirm}
             isLoading={updateProfile.isPending}
-            className="min-w-2xl"
+            className="w-md lg:min-w-2xl"
         >
             {user && (
                 <ProfileForm

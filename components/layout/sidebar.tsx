@@ -22,6 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Profile } from "@/types/profiles";
 import Image from "next/image";
 import logo from "../../public/ui/logo.webp";
+import GlobalSearch from "../card/GlobalSearch";
 
 interface SidebarProps {
     isOpen: boolean;
@@ -62,6 +63,12 @@ const menus: MenuItem[] = [
 export function Sidebar({ isOpen, setIsOpen, collapsed, setCollapsed, user }: SidebarProps) {
     const pathname = usePathname();
     const [openMenu, setOpenMenu] = useState<number | null>(null);
+
+    const [showSearchModal, setShowSearchModal] = useState(false);
+
+    const handleBack = () => {
+        setShowSearchModal(false);
+    }
 
     useEffect(() => {
         menus.forEach((menu, index) => {
@@ -136,12 +143,12 @@ export function Sidebar({ isOpen, setIsOpen, collapsed, setCollapsed, user }: Si
 
                 {/* Search */}
                 {!collapsed && (
-                    <div className="border-b border-gray-800 p-4">
+                    <button onClick={() => setShowSearchModal(true)} className="border-b border-gray-800 p-4">
                         <Input
                             placeholder="Search..."
                             className="h-9 border-gray-700 bg-gray-800/50 text-gray-100 placeholder:text-gray-500 focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-transparent"
                         />
-                    </div>
+                    </button>
                 )}
 
                 {/* Navigation */}
@@ -209,6 +216,10 @@ export function Sidebar({ isOpen, setIsOpen, collapsed, setCollapsed, user }: Si
                     </div>
                 </div>
             </aside>
+
+            {showSearchModal && (
+                <GlobalSearch showSearchModal={showSearchModal} onBack={handleBack} />
+            )}
         </>
     );
 }

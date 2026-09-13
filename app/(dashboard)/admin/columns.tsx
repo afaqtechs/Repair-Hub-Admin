@@ -4,9 +4,6 @@ import { DataTableFeatures } from "@/components/ui/data-table-features";
 import { createColumnHelper } from "@tanstack/react-table";
 import {
     ArrowUpDown,
-    Eye,
-    Edit,
-    Trash2,
 } from "lucide-react";
 
 export type RecentActivity = {
@@ -90,7 +87,20 @@ export const columns = columnHelper.columns([
     }),
 
     columnHelper.accessor("action", {
-        header: "Action",
+        header: ({ column }) => (
+            <button
+                type="button"
+                onClick={() =>
+                    column.toggleSorting(
+                        column.getIsSorted() === "asc"
+                    )
+                }
+                className="flex items-center gap-1 text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-gray-700"
+            >
+                Action
+                <ArrowUpDown className="h-3 w-3" />
+            </button>
+        ),
 
         cell: ({ row }) => (
             <span className="text-sm text-gray-600">
@@ -137,38 +147,5 @@ export const columns = columnHelper.columns([
                 </span>
             );
         },
-    }),
-
-    columnHelper.display({
-        id: "actions",
-        header: "",
-
-        cell: ({ row }) => (
-            <div className="flex items-center justify-end gap-1">
-                <button
-                    type="button"
-                    aria-label={`View activity by ${row.original.user}`}
-                    className="rounded p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
-                >
-                    <Eye className="h-4 w-4" />
-                </button>
-
-                <button
-                    type="button"
-                    aria-label={`Edit activity by ${row.original.user}`}
-                    className="rounded p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
-                >
-                    <Edit className="h-4 w-4" />
-                </button>
-
-                <button
-                    type="button"
-                    aria-label={`Delete activity by ${row.original.user}`}
-                    className="rounded p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-red-600"
-                >
-                    <Trash2 className="h-4 w-4" />
-                </button>
-            </div>
-        ),
     }),
 ]);
