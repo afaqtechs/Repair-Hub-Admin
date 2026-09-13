@@ -1,6 +1,6 @@
+import { announcementsApi } from '@/api/feedback.api';
 import { Announcement } from '@/types/announcement';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { announcementsApi } from '../api/announcements.api';
 
 // Query Keys setup
 export const ANNOUNCEMENT_KEYS = {

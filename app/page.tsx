@@ -30,7 +30,7 @@ function HomePage() {
     }
 
     return (
-        <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#F8F7FC] via-white to-[#EAF6E2] flex items-center justify-center px-6">
+        <main className="relative min-h-screen overflow-hidden bg-linear-to-br from-[#F8F7FC] via-white to-[#EAF6E2] flex items-center justify-center px-6">
             {/* Decorative blurred blobs */}
             <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#5EAE32]/20 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-[#5EAE32]/10 blur-3xl" />
@@ -49,17 +49,17 @@ function HomePage() {
                 {/* ── Attractive Logo / Badge ─────────────────────────── */}
                 <div className="relative mx-auto mb-8 h-24 w-24">
                     {/* Outer pulsing glow ring */}
-                    <span className="absolute inset-0 animate-ping rounded-[2rem] bg-[#5EAE32]/20" />
+                    <span className="absolute inset-0 animate-ping rounded-[4xl] bg-[#5EAE32]/20" />
 
                     {/* Soft blurred glow */}
                     <span className="absolute -inset-3 rounded-[2.5rem] bg-[#5EAE32]/25 blur-2xl" />
 
                     {/* Gradient border wrapper */}
-                    <div className="relative h-full w-full rounded-[2rem] bg-gradient-to-br from-[#79e636] via-[#5EAE32] to-[#3d7a1f] p-[2px] shadow-2xl shadow-[#5EAE32]/40">
+                    <div className="relative h-full w-full rounded-[4xl] bg-linear-to-br from-[#79e636] via-[#5EAE32] to-[#3d7a1f] p-[2px] shadow-2xl shadow-[#5EAE32]/40">
                         {/* Inner tile */}
-                        <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[calc(2rem-2px)] bg-gradient-to-br from-[#5EAE32] to-[#4d9a26]">
+                        <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[calc(4xl-2px)] bg-linear-to-br from-[#5EAE32] to-[#4d9a26]">
                             {/* Sheen overlay */}
-                            <span className="absolute -top-1/2 left-0 h-full w-full -translate-x-full rotate-12 bg-gradient-to-r from-transparent via-white/25 to-transparent animate-[shine_3.5s_ease-in-out_infinite]" />
+                            <span className="absolute -top-1/2 left-0 h-full w-full -translate-x-full rotate-12 bg-linear-to-r from-transparent via-white/25 to-transparent animate-[shine_3.5s_ease-in-out_infinite]" />
 
                             {/* Icon */}
                             <svg
@@ -101,7 +101,7 @@ function HomePage() {
                 <div className="mb-8">
                     <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
                         Welcome to{" "}
-                        <span className="bg-gradient-to-r from-[#5EAE32] to-[#79e636] bg-clip-text text-transparent">
+                        <span className="bg-linear-to-r from-[#5EAE32] to-[#79e636] bg-clip-text text-transparent">
                             Addis Repairs
                         </span>
                     </h1>
