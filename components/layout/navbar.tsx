@@ -1,7 +1,6 @@
 "use client";
 
 import {
-    Bell,
     LogOut,
     Menu,
     User,
@@ -74,17 +73,6 @@ export function Navbar({ onToggleSidebar, user }: NavbarProps) {
 
                 {/* Right */}
                 <div className="flex items-center gap-2">
-                    {/* Notifications */}
-                    <Button
-                        variant="default"
-                        size="icon"
-                        className="relative text-gray-900 hover:text-gray-700 hover:bg-gray-200"
-                        aria-label="Notifications"
-                    >
-                        <Bell className="h-5 w-5" />
-
-                        <span className="absolute right-1 top-0 h-2 w-2 rounded-full bg-amber-500" />
-                    </Button>
 
                     {/* User menu */}
                     <DropdownMenu>

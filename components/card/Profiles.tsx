@@ -301,7 +301,7 @@ function ProfileForm({
             </div>
 
             <div className="space-y-4">
-                <h1 className="items-center text-center font-serif text-xl py-1 bg-gray-100 rounded-lg">
+                <h1 className="items-center text-center font-serif text-xl py-1 bg-gray-300 rounded-lg">
                     Additional Info
                 </h1>
 
@@ -334,7 +334,7 @@ function ProfileForm({
             </div>
 
             <div className="space-y-4">
-                <h1 className="items-center text-center font-serif text-xl py-1 bg-gray-100 rounded-lg">
+                <h1 className="items-center text-center font-serif text-xl py-1 bg-gray-300 rounded-lg">
                     Credentials
                 </h1>
 
