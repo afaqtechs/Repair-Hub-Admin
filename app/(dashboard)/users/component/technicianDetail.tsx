@@ -102,7 +102,7 @@ function TechnicianDetail({
                 <button
                     type="button"
                     onClick={onBack}
-                    aria-label="Back to categories"
+                    aria-label="Back to users"
                     className="mt-1 flex p-1 shrink-0 cursor-pointer items-center justify-center rounded-full border border-gray-200 text-gray-500 transition hover:bg-gray-50 hover:text-gray-900"
                 >
                     <ArrowLeft className="h-6 w-6" />
@@ -114,7 +114,7 @@ function TechnicianDetail({
                 />
             </div>
 
-            {/* Category content */}
+            {/* User content */}
             {isLoading ? (
                 <div className="flex min-h-50 items-center justify-center">
                     <Spinner
@@ -128,7 +128,7 @@ function TechnicianDetail({
 
                 <>
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                        {/* Category */}
+                        {/* User */}
                         <div className="h-max">
                             <div className="flex flex-col items-center gap-0">
                                 {technician.profile_image_url ? (
@@ -388,7 +388,7 @@ function TechnicianDetail({
                                         {!parts || parts.length === 0 ? (
                                             <div className="flex min-h-40 items-center justify-center rounded-lg bg-gray-50">
                                                 <p className="text-sm text-gray-500">
-                                                    No parts found in this category.
+                                                    No parts found in this user.
                                                 </p>
                                             </div>
                                         ) : (
@@ -413,7 +413,7 @@ function TechnicianDetail({
                                         {!services || services.length === 0 ? (
                                             <div className="flex min-h-40 items-center justify-center rounded-lg bg-gray-50">
                                                 <p className="text-sm text-gray-500">
-                                                    No services found in this category.
+                                                    No services found in this user.
                                                 </p>
                                             </div>
                                         ) : (
@@ -438,7 +438,7 @@ function TechnicianDetail({
                                         {!requests || requests.length === 0 ? (
                                             <div className="flex min-h-40 items-center justify-center rounded-lg bg-gray-50">
                                                 <p className="text-sm text-gray-500">
-                                                    No requests found in this category.
+                                                    No requests found in this user.
                                                 </p>
                                             </div>
                                         ) : (
