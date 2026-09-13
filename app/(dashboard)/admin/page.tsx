@@ -249,12 +249,10 @@ export default function DashboardPage() {
                 <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {/* Total Users */}
 
-                    {/* Technicians */}
-
                     <div className="rounded-lg bg-card p-6 transition-shadow hover:shadow-sm">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-500">
+                                <p className="text-sm font-light text-gray-500">
                                     Technicians
                                 </p>
 
@@ -263,42 +261,35 @@ export default function DashboardPage() {
                                 </p>
                             </div>
 
-                            <div className="rounded-full bg-emerald-50 p-3">
-                                <Wrench className="h-5 w-5 text-emerald-600" />
-                            </div>
-                        </div>
 
-                        {/* Status */}
-                        <div className="mt-4 flex items-center gap-4">
-                            <div className="flex items-center gap-1.5">
-                                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-50">
+                            {/* Status */}
+                            <div className="mt-4 flex items-center gap-4 bg-green-50 px-2 py-1 rounded-full">
+                                <div className="flex items-center gap-1">
                                     <Check
                                         size={12}
                                         className="text-green-600"
                                         strokeWidth={2.5}
                                     />
+
+                                    <span className="text-[9px] font-medium text-green-600">
+                                        Active ({activeUsers?.length ?? 0})
+                                    </span>
                                 </div>
 
-                                <span className="text-[9px] font-medium text-green-600">
-                                    Active ({activeUsers?.length ?? 0})
-                                </span>
-                            </div>
-
-                            {inActieUsers?.length !== 0 && (
-                                <div className="flex items-center gap-1.5">
-                                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-red-50">
+                                {inActieUsers?.length !== 0 && (
+                                    <div className="flex items-center gap-1">
                                         <X
                                             size={12}
                                             className="text-red-600"
                                             strokeWidth={2.5}
                                         />
-                                    </div>
 
-                                    <span className="text-[9px] font-medium text-red-600">
-                                        In active ({inActieUsers?.length ?? 0})
-                                    </span>
-                                </div>
-                            )}
+                                        <span className="text-[9px] font-medium text-red-600">
+                                            In active ({inActieUsers?.length ?? 0})
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
 
@@ -308,7 +299,7 @@ export default function DashboardPage() {
                         {/* Main metric */}
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-500">
+                                <p className="text-sm font-light text-gray-500">
                                     Used Parts
                                 </p>
 
@@ -317,50 +308,42 @@ export default function DashboardPage() {
                                 </p>
                             </div>
 
-                            <div className="rounded-full bg-primary/10 p-3">
-                                <Package className="h-5 w-5 text-primary" />
-                            </div>
-                        </div>
-
-                        {/* Status */}
-                        <div className="mt-4 flex items-center gap-4">
-                            <div className="flex items-center gap-1.5">
-                                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-50">
+                            <div className="mt-4 flex items-center gap-4 bg-green-50 px-2 py-1 rounded-full">
+                                <div className="flex items-center gap-1">
                                     <Check
                                         size={12}
                                         className="text-green-600"
                                         strokeWidth={2.5}
                                     />
+
+                                    <span className="text-[9px] font-medium text-green-600">
+                                        Approved ({approvedUsedParts?.length ?? 0})
+                                    </span>
                                 </div>
 
-                                <span className="text-[9px] font-medium text-green-600">
-                                    Approved ({approvedUsedParts?.length ?? 0})
-                                </span>
-                            </div>
-
-                            {rejectedUsedParts?.length !== 0 && (
-                                <div className="flex items-center gap-1.5">
-                                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-red-50">
+                                {rejectedUsedParts?.length !== 0 && (
+                                    <div className="flex items-center gap-1">
                                         <X
                                             size={12}
                                             className="text-red-600"
                                             strokeWidth={2.5}
                                         />
-                                    </div>
 
-                                    <span className="text-[9px] font-medium text-red-600">
-                                        Rejected ({rejectedUsedParts?.length ?? 0})
-                                    </span>
-                                </div>
-                            )}
+                                        <span className="text-[9px] font-medium text-red-600">
+                                            Rejected ({rejectedUsedParts?.length ?? 0})
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
+
 
                     {/* new Parts */}
                     <div className="rounded-lg bg-card p-6 transition-shadow hover:shadow-sm">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-500">
+                                <p className="text-sm font-light text-gray-500">
                                     New Parts
                                 </p>
 
@@ -369,42 +352,34 @@ export default function DashboardPage() {
                                 </p>
                             </div>
 
-                            <div className="rounded-full bg-purple-50 p-3">
-                                <Package className="h-5 w-5 text-purple-600" />
-                            </div>
-                        </div>
-
-                        {/* Status */}
-                        <div className="mt-4 flex items-center gap-4">
-                            <div className="flex items-center gap-1.5">
-                                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-50">
+                            {/* Status */}
+                            <div className="mt-4 flex items-center gap-4 bg-green-50 px-2 py-1 rounded-full">
+                                <div className="flex items-center gap-1">
                                     <Check
                                         size={12}
                                         className="text-green-600"
                                         strokeWidth={2.5}
                                     />
+
+                                    <span className="text-[9px] font-medium text-green-600">
+                                        Approved ({approvedNewParts?.length ?? 0})
+                                    </span>
                                 </div>
 
-                                <span className="text-[9px] font-medium text-green-600">
-                                    Approved ({approvedNewParts?.length ?? 0})
-                                </span>
-                            </div>
-
-                            {rejectedNewParts?.length !== 0 && (
-                                <div className="flex items-center gap-1.5">
-                                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-red-50">
+                                {rejectedNewParts?.length !== 0 && (
+                                    <div className="flex items-center gap-1">
                                         <X
                                             size={12}
                                             className="text-red-600"
                                             strokeWidth={2.5}
                                         />
-                                    </div>
 
-                                    <span className="text-[9px] font-medium text-red-600">
-                                        Rejected ({rejectedNewParts?.length ?? 0})
-                                    </span>
-                                </div>
-                            )}
+                                        <span className="text-[9px] font-medium text-red-600">
+                                            Rejected ({rejectedNewParts?.length ?? 0})
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
 
@@ -413,52 +388,44 @@ export default function DashboardPage() {
                     <div className="rounded-lg bg-card p-6 transition-shadow hover:shadow-sm">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-500">
+                                <p className="text-sm font-light text-gray-500">
                                     Services
                                 </p>
 
                                 <p className="text-2xl font-bold text-gray-900">
                                     {services?.data.length}
                                 </p>
+
                             </div>
 
-                            <div className="rounded-full bg-orange-50 p-3">
-                                <Cog className="h-5 w-5 text-orange-600" />
-                            </div>
-                        </div>
-
-
-                        {/* Status */}
-                        <div className="mt-4 flex items-center gap-4">
-                            <div className="flex items-center gap-1.5">
-                                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-50">
+                            {/* Status */}
+                            <div className="mt-4 flex items-center gap-4 bg-green-50 px-2 py-1 rounded-full">
+                                <div className="flex items-center gap-1">
                                     <Check
                                         size={12}
                                         className="text-green-600"
                                         strokeWidth={2.5}
                                     />
+
+                                    <span className="text-[9px] font-medium text-green-600">
+                                        Approved ({approvedServicess?.length ?? 0})
+                                    </span>
                                 </div>
 
-                                <span className="text-[9px] font-medium text-green-600">
-                                    Approved ({approvedServicess?.length ?? 0})
-                                </span>
-                            </div>
-
-                            {rejectedServicess?.length !== 0 && (
-                                <div className="flex items-center gap-1.5">
-                                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-red-50">
+                                {rejectedServicess?.length !== 0 && (
+                                    <div className="flex items-center gap-1">
                                         <X
                                             size={12}
                                             className="text-red-600"
                                             strokeWidth={2.5}
                                         />
-                                    </div>
 
-                                    <span className="text-[9px] font-medium text-red-600">
-                                        Rejected ({rejectedServicess?.length ?? 0})
-                                    </span>
-                                </div>
-                            )}
+                                        <span className="text-[9px] font-medium text-red-600">
+                                            Rejected ({rejectedServicess?.length ?? 0})
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
 
@@ -467,8 +434,8 @@ export default function DashboardPage() {
                     <div className="rounded-lg bg-card p-6 transition-shadow hover:shadow-sm">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-500">
-                                    Service Requests
+                                <p className="text-sm font-light text-gray-500">
+                                    Requests
                                 </p>
 
                                 <p className="text-2xl font-bold text-gray-900">
@@ -476,42 +443,36 @@ export default function DashboardPage() {
                                 </p>
                             </div>
 
-                            <div className="rounded-full bg-yellow-50 p-3">
-                                <ClipboardList className="h-5 w-5 text-yellow-600" />
-                            </div>
-                        </div>
-
-                        {/* Status */}
-                        <div className="mt-4 flex items-center gap-4">
-                            <div className="flex items-center gap-1.5">
-                                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-50">
+                            {/* Status */}
+                            <div className="mt-4 flex items-center gap-4 bg-green-50 px-2 py-1 rounded-full">
+                                <div className="flex items-center gap-1">
                                     <Check
                                         size={12}
                                         className="text-green-600"
                                         strokeWidth={2.5}
                                     />
-                                </div>
 
-                                <span className="text-[9px] font-medium text-green-600">
-                                    Approved ({approvedRequests?.length ?? 0})
-                                </span>
-                            </div>
-
-                            {rejectedRequests?.length !== 0 && (
-                                <div className="flex items-center gap-1.5">
-                                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-red-50">
-                                        <X
-                                            size={12}
-                                            className="text-red-600"
-                                            strokeWidth={2.5}
-                                        />
-                                    </div>
-
-                                    <span className="text-[9px] font-medium text-red-600">
-                                        Rejected ({rejectedRequests?.length ?? 0})
+                                    <span className="text-[9px] font-light text-green-600">
+                                        Approved ({approvedRequests?.length ?? 0})
                                     </span>
                                 </div>
-                            )}
+
+                                {rejectedRequests?.length !== 0 && (
+                                    <div className="flex items-center gap-1.5">
+                                        <div className="flex h-5 w-5 items-center justify-center rounded-full bg-red-50">
+                                            <X
+                                                size={12}
+                                                className="text-red-600"
+                                                strokeWidth={2.5}
+                                            />
+                                        </div>
+
+                                        <span className="text-[9px] font-medium text-red-600">
+                                            Rejected ({rejectedRequests?.length ?? 0})
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
 
@@ -520,7 +481,7 @@ export default function DashboardPage() {
                     <div className="rounded-lg bg-card p-6 transition-shadow hover:shadow-sm">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-500">
+                                <p className="text-sm font-light text-gray-500">
                                     Verified Users
                                 </p>
 
@@ -528,10 +489,6 @@ export default function DashboardPage() {
                                     {verifiedTechnicians?.length}
                                 </p>
                             </div>
-
-                            <div className="rounded-full bg-green-50 p-3">
-                                <ShieldCheck className="h-5 w-5 text-green-600" />
-                            </div>
                         </div>
                     </div>
 
@@ -540,7 +497,7 @@ export default function DashboardPage() {
                     <div className="rounded-lg bg-card p-6 transition-shadow hover:shadow-sm">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-500">
+                                <p className="text-sm font-light text-gray-500">
                                     Total Feedback
                                 </p>
 
@@ -548,10 +505,6 @@ export default function DashboardPage() {
                                     {feedbacks?.length}
                                 </p>
                             </div>
-
-                            <div className="rounded-full bg-pink-50 p-3">
-                                <Star className="h-5 w-5 text-pink-600" />
-                            </div>
                         </div>
                     </div>
 
@@ -560,17 +513,13 @@ export default function DashboardPage() {
                     <div className="rounded-lg bg-card p-6 transition-shadow hover:shadow-sm">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-500">
+                                <p className="text-sm font-light text-gray-500">
                                     Total Announcements
                                 </p>
 
                                 <p className="text-2xl font-bold text-gray-900">
                                     {announcements?.length}
                                 </p>
-                            </div>
-
-                            <div className="rounded-full bg-pink-50 p-3">
-                                <Speaker className="h-5 w-5 text-pink-600" />
                             </div>
                         </div>
                     </div>
