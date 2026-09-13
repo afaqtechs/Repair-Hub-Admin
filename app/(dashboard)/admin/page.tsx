@@ -1,12 +1,5 @@
 "use client";
 import {
-    Wrench,
-    Package,
-    Cog,
-    ClipboardList,
-    ShieldCheck,
-    Star,
-    Speaker,
     Check,
     X,
 } from "lucide-react";
