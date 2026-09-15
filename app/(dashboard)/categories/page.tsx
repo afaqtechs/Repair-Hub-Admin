@@ -149,9 +149,6 @@ function Categories() {
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                 {/* Table */}
                 <div className="col-span-2 rounded-lg bg-card p-6 flex flex-col space-y-4">
-                    <DataTableToolbar
-                        searchPlaceholder="Search categories..."
-                    />
 
                     <DataTable
                         columns={categoryColumns(

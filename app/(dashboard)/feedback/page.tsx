@@ -142,11 +142,7 @@ function TechnicianFeedbacks() {
             />
 
             <div className="space-y-4 rounded-lg bg-card p-6">
-                <DataTableToolbar
-                    searchPlaceholder="Search feedbacks..."
-                    className="w-full lg:w-1/2"
-                />
-
+              
                 <DataTable
                     columns={feedbackColumns(
                         handleDelete,

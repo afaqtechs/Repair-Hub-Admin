@@ -82,9 +82,6 @@ function Announcements() {
 
             {/* Categories */}
             <div className="space-y-4 rounded-lg bg-card p-6">
-                <DataTableToolbar
-                    searchPlaceholder="Search categories..."
-                />
 
                 <DataTable
                     columns={announcementColumns(
