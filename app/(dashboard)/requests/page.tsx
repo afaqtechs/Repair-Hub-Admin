@@ -125,7 +125,7 @@ function Requests() {
                             <DataTableToolbar
                                 searchValue={search}
                                 onSearchChange={setSearch}
-                                searchPlaceholder="Search parts, technicians, categories..."
+                                searchPlaceholder="Search requests, technicians, categories..."
                                 className="w-full lg:w-1/2"
                                 showDownload={false}
                                 showRefresh={true}
