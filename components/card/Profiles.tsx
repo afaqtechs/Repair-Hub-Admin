@@ -264,7 +264,7 @@ function ProfileForm({
                 </button>
 
                 <div className="flex-1 space-y-4">
-                    <div className="flex flex-row items-center gap-3">
+                    <div className="flex flex-col lg:flex-row items-center gap-3">
                         <Input
                             name="first_name"
                             placeholder="Your first name"

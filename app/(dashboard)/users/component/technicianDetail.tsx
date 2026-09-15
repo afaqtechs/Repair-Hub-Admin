@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import DocumentViewerModal from "@/components/card/DocumentViewerModal";
 import { supabase } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import HTMLRenderer from "@/components/ui/HTMLRenderer";
 
 type TechnicianDetailProps = {
     technician: Profile;
@@ -347,10 +348,12 @@ function TechnicianDetail({
                                     About Technician
                                 </p>
 
-                                <p className="mt-2 text-sm leading-6 text-gray-600">
-                                    {technician.bio ||
-                                        "No biography has been provided by this technician."}
-                                </p>
+                                {technician.bio ? (
+                                    <HTMLRenderer html={technician.bio} />
+                                ) : (
+                                    <p className="mt-2 text-sm leading-6 text-gray-600">No biography has been provided by this technician.</p>
+                                )}
+
                             </div>
                         </div>
 
