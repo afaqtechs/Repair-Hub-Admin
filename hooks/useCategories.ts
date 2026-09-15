@@ -4,7 +4,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { categoriesApi } from "../api/categories.api";
-import { Category } from "@/types/category";
+import { Category, CategoryType } from "@/types/category";
 import { supabase } from "@/lib/supabase/client";
 
 // Query Keys
@@ -90,9 +90,11 @@ export function useCategoryMutations() {
     mutationFn: async ({
       name,
       icon_url,
+      type,
     }: {
       name: string;
       icon_url: File;
+      type:CategoryType,
     }) => {
       const trimmedName = name.trim();
 
@@ -142,6 +144,7 @@ export function useCategoryMutations() {
           name: trimmedName,
           slug,
           icon_url: iconUrl,
+          type,
         });
 
         return category;

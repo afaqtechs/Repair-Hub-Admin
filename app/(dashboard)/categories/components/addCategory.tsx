@@ -8,6 +8,7 @@ import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import Styles from "@/constants/styles";
 import { useCategoryMutations } from "@/hooks";
+import { CategoryType } from "@/types/category";
 
 type AddCategoryProps = {
     showModal: boolean;
@@ -19,10 +20,27 @@ function AddCategory({
     setShowModal,
 }: AddCategoryProps) {
     const [name, setName] = useState("");
+    const [categoryType, setCategoryType] = useState<CategoryType>("part");
     const [image, setImage] = useState<File | null>(null);
     const [preview, setPreview] = useState<string | null>(null);
 
     const { createCategory } = useCategoryMutations();
+
+    const categoryTypes: { label: string; value: CategoryType }[] = [
+        {
+            label: "Part",
+            value: "part",
+        },
+        {
+            label: "Service",
+            value: "service",
+        },
+        {
+            label: "Request",
+            value: "request",
+        },
+    ];
+
 
     const handleImageChange = (
         e: React.ChangeEvent<HTMLInputElement>
@@ -74,6 +92,10 @@ function AddCategory({
             return;
         }
 
+        if (!categoryType.trim()) {
+            return;
+        }
+
         if (!image) {
             return;
         }
@@ -82,6 +104,7 @@ function AddCategory({
             await createCategory.mutateAsync({
                 name: name.trim(),
                 icon_url: image,
+                type: categoryType,
             });
 
             resetForm();
@@ -126,10 +149,56 @@ function AddCategory({
                         onChange={(e) =>
                             setName(e.target.value)
                         }
-                        placeholder="e.g. Android"
+                        placeholder="e.g. Screen"
                         disabled={createCategory.isPending}
                         className={`mt-2 ${Styles.input}`}
                     />
+                </div>
+
+                <div className="space-y-2">
+                    <label
+                        htmlFor="category-name"
+                        className="text-sm font-medium text-gray-900"
+                    >
+                        Category Type
+                    </label>
+
+                    <div className="flex flex-row items-center gap-6">
+                        {categoryTypes.map((option) => {
+                            const selected = categoryType === option.value;
+
+                            return (
+                                <button
+                                    key={option.value}
+                                    onClick={() =>
+                                        setCategoryType(option.value)
+                                    }
+                                    className="mt-2 flex-1 h-9 cursor-pointer rounded-lg items-center justify-center border"
+                                    style={{
+                                        backgroundColor: selected
+                                            ? "#5EAE32"
+                                            : "#FFFFFF",
+                                        borderColor: selected
+                                            ? "#5EAE32"
+                                            : "#E2E8F0",
+                                    }}
+                                >
+                                    <p
+                                        className="text-sm font-manrope-semibold"
+                                        style={{
+                                            color: selected
+                                                ? "#FFFFFF"
+                                                : "#64748B",
+                                        }}
+                                    >
+                                        {option.label}
+                                    </p>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+
                 </div>
 
                 {/* Category icon */}

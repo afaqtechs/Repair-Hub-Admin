@@ -78,12 +78,25 @@ export const categoryColumns = (
         },
     }),
 
-    columnHelper.accessor("slug", {
-        header: "Slug",
+    columnHelper.accessor("type", {
+        header: ({ column }) => (
+            <button
+                type="button"
+                onClick={() =>
+                    column.toggleSorting(
+                        column.getIsSorted() === "asc"
+                    )
+                }
+                className="flex items-center gap-1 text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-gray-700"
+            >
+                Type
+                <ArrowUpDown className="h-3 w-3" />
+            </button>
+        ),
 
         cell: ({ row }) => (
             <span className="text-sm text-gray-900">
-                {row.original.slug || "—"}
+                {row.original.type || "—"}
             </span>
         ),
     }),

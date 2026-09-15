@@ -69,7 +69,7 @@ export const categoriesApi = {
   // ─────────────────────────────────────────────
 
   async create(
-    payload: Pick<Category, 'name' | 'slug' | 'icon_url'>
+    payload: Pick<Category, 'name' | 'slug' | 'icon_url' | 'type'>
   ): Promise<Category | null> {
     try {
       const { data, error } = await supabase

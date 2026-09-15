@@ -214,6 +214,18 @@ function Categories() {
 
                                         <div className="flex w-full items-center justify-between border-b border-gray-200 pb-1">
                                             <p className="text-xs font-medium text-gray-500">
+                                                Type
+                                            </p>
+
+                                            <p className="text-sm font-medium text-gray-900">
+                                                {
+                                                    selectedCategory.type
+                                                }
+                                            </p>
+                                        </div>
+
+                                        <div className="flex w-full items-center justify-between border-b border-gray-200 pb-1">
+                                            <p className="text-xs font-medium text-gray-500">
                                                 Total Parts
                                             </p>
 
