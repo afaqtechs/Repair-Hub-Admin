@@ -70,8 +70,7 @@ function Notifications() {
                     </h2>
 
                     <p className="mt-1 max-w-sm text-sm text-gray-500">
-                        New feedback and technician document uploads
-                        will appear here.
+                        Unread notifications will appear here.
                     </p>
                 </div>
             ) : (
@@ -88,16 +87,16 @@ function Notifications() {
                                     }
                                 }}
                                 className={`group relative flex gap-4 border-b border-gray-100 p-4 transition-colors last:border-b-0 ${isUnread
-                                        ? "bg-green-50/40 hover:bg-green-50"
-                                        : "hover:bg-gray-50"
+                                    ? "bg-green-50/40 hover:bg-green-50"
+                                    : "hover:bg-gray-50"
                                     }`}
                             >
                                 {/* Icon */}
                                 <div className="relative shrink-0">
                                     <div
                                         className={`flex h-10 w-10 items-center justify-center rounded-full ${notification.type === "feedback"
-                                                ? "bg-blue-100 text-blue-600"
-                                                : "bg-purple-100 text-purple-600"
+                                            ? "bg-blue-100 text-blue-600"
+                                            : "bg-purple-100 text-purple-600"
                                             }`}
                                     >
                                         {notification.type === "feedback" ? (
@@ -118,8 +117,8 @@ function Notifications() {
                                         <div>
                                             <h3
                                                 className={`text-sm ${isUnread
-                                                        ? "font-semibold text-gray-900"
-                                                        : "font-medium text-gray-700"
+                                                    ? "font-semibold text-gray-900"
+                                                    : "font-medium text-gray-700"
                                                     }`}
                                             >
                                                 {notification.title}
@@ -140,8 +139,8 @@ function Notifications() {
                                     <div className="mt-2 flex items-center gap-2">
                                         <span
                                             className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${notification.type === "feedback"
-                                                    ? "bg-blue-50 text-blue-600"
-                                                    : "bg-purple-50 text-purple-600"
+                                                ? "bg-blue-50 text-blue-600"
+                                                : "bg-purple-50 text-purple-600"
                                                 }`}
                                         >
                                             {notification.type === "feedback"
