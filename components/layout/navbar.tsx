@@ -1,6 +1,7 @@
 "use client";
 
 import {
+    Bell,
     LogOut,
     Menu,
     User,
@@ -19,6 +20,8 @@ import { signOut } from "@/api/auth.api";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Profiles from "../card/Profiles";
+import Notifications from "../card/Notifications";
+import { useNotifications } from "@/hooks";
 
 interface NavbarProps {
     onToggleSidebar: () => void;
@@ -29,6 +32,10 @@ export function Navbar({ onToggleSidebar, user }: NavbarProps) {
     const router = useRouter();
 
     const [showProfileModal, setShowProfileModal] = useState(false);
+
+    const {
+        unreadCount,
+    } = useNotifications();
 
     const handleBack = () => {
         setShowProfileModal(false);
@@ -74,6 +81,40 @@ export function Navbar({ onToggleSidebar, user }: NavbarProps) {
                 {/* Right */}
                 <div className="flex items-center gap-2">
 
+                    <DropdownMenu>
+                        <div className="relative">
+                            <DropdownMenuTrigger
+                                render={
+                                    <Button
+                                        variant="default"
+                                        size="icon"
+                                        aria-label="Notifications"
+                                    >
+                                        <Bell
+                                            className="h-5 w-5"
+                                            color="#102112"
+                                        />
+                                    </Button>
+                                }
+                            />
+
+                            {unreadCount > 0 && (
+                                <span className="pointer-events-none absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-semibold text-white ring-2 ring-gray-100">
+                                    {unreadCount > 99
+                                        ? "99+"
+                                        : unreadCount}
+                                </span>
+                            )}
+                        </div>
+
+                        <DropdownMenuContent
+                            align="end"
+                            className="w-96 border-none bg-gray-50 p-3 text-gray-900 ring-0"
+                        >
+                            <Notifications />
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
                     {/* User menu */}
                     <DropdownMenu>
                         <DropdownMenuTrigger
@@ -101,7 +142,7 @@ export function Navbar({ onToggleSidebar, user }: NavbarProps) {
 
                         <DropdownMenuContent
                             align="end"
-                            className="w-52 bg-gray-100 text-gray-900 border-none ring-0"
+                            className="w-52 bg-gray-50 text-gray-900 border-none ring-0"
                         >
                             <DropdownMenuItem onClick={() => setShowProfileModal(true)} className="cursor-pointer text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:text-gray-900 focus:bg-gray-200">
                                 <User className="mr-2 h-4 w-4" />

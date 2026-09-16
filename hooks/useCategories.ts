@@ -1,33 +1,29 @@
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { categoriesApi } from "../api/categories.api";
-import { Category, CategoryType } from "@/types/category";
-import { supabase } from "@/lib/supabase/client";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { categoriesApi } from '../api/categories.api';
+import { Category, CategoryType } from '@/types/category';
+import { supabase } from '@/lib/supabase/client';
 
 // Query Keys
 export const CATEGORY_KEYS = {
-  all: ["categories"] as const,
+  all: ['categories'] as const,
 
-  lists: () => [...CATEGORY_KEYS.all, "list"] as const,
+  lists: () => [...CATEGORY_KEYS.all, 'list'] as const,
 
-  details: () => [...CATEGORY_KEYS.all, "detail"] as const,
+  details: () => [...CATEGORY_KEYS.all, 'detail'] as const,
 
   detail: (id: string) => [...CATEGORY_KEYS.details(), id] as const,
 
-  part: () => [...CATEGORY_KEYS.all, "part"] as const,
+  part: () => [...CATEGORY_KEYS.all, 'part'] as const,
 
   categoryParts: (categoryId: string) =>
     [...CATEGORY_KEYS.part(), categoryId] as const,
 
-  service: () => [...CATEGORY_KEYS.all, "service"] as const,
+  service: () => [...CATEGORY_KEYS.all, 'service'] as const,
 
   categoryServices: (categoryId: string) =>
     [...CATEGORY_KEYS.service(), categoryId] as const,
 
-  request: () => [...CATEGORY_KEYS.all, "request"] as const,
+  request: () => [...CATEGORY_KEYS.all, 'request'] as const,
 
   categoryRequests: (categoryId: string) =>
     [...CATEGORY_KEYS.request(), categoryId] as const,
@@ -93,53 +89,52 @@ export function useCategoryMutations() {
       type,
     }: {
       name: string;
-      icon_url: File;
-      type:CategoryType,
+      icon_url?: File | null;
+      type: CategoryType;
     }) => {
       const trimmedName = name.trim();
 
       if (!trimmedName) {
-        console.log("Category name is required.");
+        throw new Error('Category name is required.');
       }
 
-      // Create slug
       const slug = trimmedName
         .toLowerCase()
         .trim()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
 
-      // Get file extension
-      const fileExt =
-        icon_url?.name.split(".").pop()?.toLowerCase() || "webp";
+      let iconUrl: string | null = null;
+      let fileName: string | null = null;
 
-      // Unique file name
-      const fileName = `${crypto.randomUUID()}.${fileExt}`;
+      // Upload only if an icon was selected
+      if (icon_url) {
+        const fileExt = icon_url.name.split('.').pop()?.toLowerCase() || 'webp';
 
-      // Upload image
-      const { error: uploadError } = await supabase.storage
-        .from("category-icons")
-        .upload(fileName, icon_url, {
-          cacheControl: "3600",
-          upsert: false,
-          contentType: icon_url.type,
-        });
+        fileName = `${crypto.randomUUID()}.${fileExt}`;
 
-      if (uploadError) {
-        console.log(
-          `Failed to upload category image: ${uploadError.message}`
-        );
+        const { error: uploadError } = await supabase.storage
+          .from('category-icons')
+          .upload(fileName, icon_url, {
+            cacheControl: '3600',
+            upsert: false,
+            contentType: icon_url.type,
+          });
+
+        if (uploadError) {
+          throw new Error(
+            `Failed to upload category image: ${uploadError.message}`
+          );
+        }
+
+        const { data: publicUrlData } = supabase.storage
+          .from('category-icons')
+          .getPublicUrl(fileName);
+
+        iconUrl = publicUrlData.publicUrl;
       }
 
-      // Get public URL
-      const { data: publicUrlData } = supabase.storage
-        .from("category-icons")
-        .getPublicUrl(fileName);
-
-      const iconUrl = publicUrlData.publicUrl;
-
       try {
-        // Insert category
         const category = await categoriesApi.create({
           name: trimmedName,
           slug,
@@ -147,13 +142,16 @@ export function useCategoryMutations() {
           type,
         });
 
+        if (!category) {
+          throw new Error('Failed to create category.');
+        }
+
         return category;
       } catch (error) {
-        // If database insert fails,
-        // remove the uploaded image
-        await supabase.storage
-          .from("category-icons")
-          .remove([fileName]);
+        // Remove uploaded image if database insert fails
+        if (fileName) {
+          await supabase.storage.from('category-icons').remove([fileName]);
+        }
 
         throw error;
       }
@@ -168,13 +166,8 @@ export function useCategoryMutations() {
 
   // UPDATE CATEGORY
   const updateCategory = useMutation({
-    mutationFn: ({
-      id,
-      payload,
-    }: {
-      id: string;
-      payload: Partial<Category>;
-    }) => categoriesApi.update(id, payload),
+    mutationFn: ({ id, payload }: { id: string; payload: Partial<Category> }) =>
+      categoriesApi.update(id, payload),
 
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
@@ -196,27 +189,27 @@ export function useCategoryMutations() {
   });
 
   // DELETE CATEGORY
-   const deleteCategory = useMutation({
-        mutationFn: (id: string) => categoriesApi.remove(id),
+  const deleteCategory = useMutation({
+    mutationFn: (id: string) => categoriesApi.remove(id),
 
-        onSuccess: (_, id) => {
-            queryClient.invalidateQueries({
-                queryKey: CATEGORY_KEYS.lists(),
-            });
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries({
+        queryKey: CATEGORY_KEYS.lists(),
+      });
 
-            queryClient.removeQueries({
-                queryKey: CATEGORY_KEYS.detail(id),
-            });
+      queryClient.removeQueries({
+        queryKey: CATEGORY_KEYS.detail(id),
+      });
 
-            queryClient.invalidateQueries({
-                queryKey: CATEGORY_KEYS.part(),
-            });
+      queryClient.invalidateQueries({
+        queryKey: CATEGORY_KEYS.part(),
+      });
 
-            queryClient.invalidateQueries({
-                queryKey: CATEGORY_KEYS.service(),
-            });
-        },
-    });
+      queryClient.invalidateQueries({
+        queryKey: CATEGORY_KEYS.service(),
+      });
+    },
+  });
 
   return {
     createCategory,

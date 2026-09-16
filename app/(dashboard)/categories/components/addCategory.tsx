@@ -96,14 +96,10 @@ function AddCategory({
             return;
         }
 
-        if (!image) {
-            return;
-        }
-
         try {
             await createCategory.mutateAsync({
                 name: name.trim(),
-                icon_url: image,
+                ...(image ? { icon_url: image } : {}),
                 type: categoryType,
             });
 
@@ -301,8 +297,7 @@ function AddCategory({
                         type="submit"
                         disabled={
                             createCategory.isPending ||
-                            !name.trim() ||
-                            !image
+                            !name.trim()
                         }
                     >
                         {createCategory.isPending

@@ -1,6 +1,7 @@
 "use client";
 
 import { DataTableFeatures } from "@/components/ui/data-table-features";
+import { Profile } from "@/types/profiles";
 import { createColumnHelper } from "@tanstack/react-table";
 import {
     ArrowUpDown,
@@ -8,7 +9,7 @@ import {
 
 export type RecentActivity = {
     id: string;
-    user: string;
+    user: Profile | string;
     action: string;
     timestamp: string;
     status: "completed" | "pending" | "in-progress";
@@ -64,7 +65,13 @@ export const columns = columnHelper.columns([
         cell: ({ row }) => {
             const user = row.original.user;
 
-            const initials = user
+            const userName =
+                typeof user === "string"
+                    ? user
+                    : `${user.first_name ?? ""} ${user.last_name ?? ""}`.trim() ||
+                    "Unknown user";
+
+            const initials = userName
                 .split(" ")
                 .filter(Boolean)
                 .map((name) => name[0])
@@ -79,7 +86,7 @@ export const columns = columnHelper.columns([
                     </div>
 
                     <span className="text-sm font-medium text-gray-900">
-                        {user}
+                        {userName}
                     </span>
                 </div>
             );

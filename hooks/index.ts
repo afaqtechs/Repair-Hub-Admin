@@ -6,3 +6,4 @@ export * from "./usePlatforms";
 export * from "./useFeedbacks";
 export * from "./useProfiles";
 export * from "./useAnnouncement";
+export * from "./useNotifications";

@@ -8,6 +8,7 @@ import { DataTable } from "@/components/ui/datatable";
 import { useAnnouncements, useFeedbacks, useParts, useRequests, useServices, useTechnicians } from "@/hooks";
 import { Spinner } from "@/components/ui/loader";
 import { PageHeader } from "@/components/ui/page-header";
+import { Profile } from "@/types/profiles";
 
 // ============================================================
 // Types
@@ -15,7 +16,7 @@ import { PageHeader } from "@/components/ui/page-header";
 
 type RecentActivity = {
     id: string;
-    user: string;
+    user: Profile | string;
     action: string;
     timestamp: string;
     status: "completed" | "pending" | "in-progress";
@@ -137,7 +138,7 @@ export default function DashboardPage() {
             )
             .map((item) => ({
                 id: `part-${item.id}`,
-                user: "Technician",
+                user: item.technician?.first_name || "Unknown user",
                 action: "New spare part registered",
                 timestamp: formatRelativeTime(item.created_at!),
                 status: item.is_approved
@@ -154,7 +155,7 @@ export default function DashboardPage() {
             )
             .map((item) => ({
                 id: `service-${item.id}`,
-                user: "Technician",
+                user: item.technician?.first_name || "Unknown user",
                 action: "New service registered",
                 timestamp: formatRelativeTime(item.created_at!),
                 status: item.is_approved
@@ -171,7 +172,7 @@ export default function DashboardPage() {
             )
             .map((item) => ({
                 id: `request-${item.id}`,
-                user: "User",
+                user: item.technician?.first_name || "Unknown user",
                 action: "New service request",
                 timestamp: formatRelativeTime(item.created_at!),
                 status: item.is_approved
@@ -188,7 +189,7 @@ export default function DashboardPage() {
             )
             .map((item) => ({
                 id: `feedback-${item.id}`,
-                user: "User",
+                user: item.technician?.first_name || "Unknown user",
                 action: "New feedback submitted",
                 timestamp: formatRelativeTime(item.created_at!),
                 status: "completed" as const,
